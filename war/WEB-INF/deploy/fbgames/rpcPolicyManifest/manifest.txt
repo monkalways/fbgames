@@ -1,0 +1,3 @@
+# Module fbgames
+# RPC service class, partial path of RPC policy file
+net.customware.gwt.dispatch.client.standard.StandardDispatchService, 85FEED2E409FFFA2C96219B83680D59A.gwt.rpc
