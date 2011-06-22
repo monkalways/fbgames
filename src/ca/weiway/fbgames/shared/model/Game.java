@@ -16,12 +16,29 @@ public class Game implements Serializable {
 	@PrimaryKey
 	@Persistent(valueStrategy=IdGeneratorStrategy.IDENTITY)
 	private Long id;
+
+	@Persistent
+	private String webId;
 	
 	@Persistent
 	private String name;
 	
 	@Persistent
 	private Double price;
+	
+	@Persistent
+	private String link;
+	
+	@Persistent
+	private String imageLink;
+
+	public String getImageLink() {
+		return imageLink;
+	}
+
+	public void setImageLink(String imageLink) {
+		this.imageLink = imageLink;
+	}
 
 	public Long getId() {
 		return id;
@@ -47,4 +64,19 @@ public class Game implements Serializable {
 		this.price = price;
 	}
 
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public String getWebId() {
+		return webId;
+	}
+
+	public void setWebId(String webId) {
+		this.webId = webId;
+	}
 }

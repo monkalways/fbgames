@@ -1,6 +1,7 @@
 package ca.weiway.fbgames.client.ui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.weiway.fbgames.shared.model.Game;
 
@@ -14,8 +15,14 @@ public interface HomeView extends IsWidget {
 	
 	interface Presenter {
 		void goTo(Place place);
+
+		void deleteGames();
 	}
 
-	void setGames(ArrayList<Game> games);
+	void setGames(List<Game> games);
+
+	List<Integer> getSelectedRows();
+
+	void setLoading(boolean isloading);
 	
 }

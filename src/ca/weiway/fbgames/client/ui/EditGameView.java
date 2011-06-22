@@ -9,8 +9,8 @@ public interface EditGameView extends IsWidget {
 	Double getPrice();
 	
 	interface Presenter extends ca.weiway.fbgames.client.activity.Presenter {
-
 		void doSave();
-		
 	}
+
+	String getImageLink();
 }

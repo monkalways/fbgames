@@ -39,6 +39,9 @@ public class EditGameViewImpl extends Composite implements EditGameView {
 	
 	@UiField 
 	TextBox txtPrice;
+
+	@UiField 
+	TextBox txtImageLink;
 	
 	@UiField 
 	Label pageTitle;
@@ -66,6 +69,11 @@ public class EditGameViewImpl extends Composite implements EditGameView {
 	@Override
 	public Double getPrice() {
 		return Double.parseDouble(txtPrice.getValue());
+	}
+
+	@Override
+	public String getImageLink() {
+		return txtImageLink.getValue();
 	}
 
 }

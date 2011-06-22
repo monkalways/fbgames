@@ -14,7 +14,7 @@ public class Fbgames implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		AppInjector injector = GWT.create(AppInjector.class);
-		RootPanel.get().add(injector.getMainView());
+		RootPanel.get().add(injector.getMainViewImpl());
 		injector.getPlaceHistoryHandler().handleCurrentHistory();
 	}
 	

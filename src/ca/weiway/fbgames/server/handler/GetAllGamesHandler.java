@@ -9,6 +9,7 @@ import javax.jdo.Query;
 import com.google.inject.Inject;
 
 import ca.weiway.fbgames.server.guice.PersistenceManagerProvider;
+import ca.weiway.fbgames.server.parser.GameParser;
 import ca.weiway.fbgames.shared.action.GetAllGamesAction;
 import ca.weiway.fbgames.shared.action.GetAllGamesResult;
 import ca.weiway.fbgames.shared.model.Game;
@@ -19,10 +20,13 @@ import net.customware.gwt.dispatch.shared.DispatchException;
 public class GetAllGamesHandler implements ActionHandler<GetAllGamesAction, GetAllGamesResult> {
 	
 	private PersistenceManagerProvider pmp;
+	private GameParser parser;
 	
 	@Inject
-	public GetAllGamesHandler(PersistenceManagerProvider pmp) {
+	public GetAllGamesHandler(PersistenceManagerProvider pmp,
+			GameParser parser) {
 		this.pmp = pmp;
+		this.parser = parser;
 	}
 
 	@Override
@@ -53,6 +57,21 @@ public class GetAllGamesHandler implements ActionHandler<GetAllGamesAction, GetA
 		} finally {
 			pm.close();
 		}
+//		try {
+//			final ArrayList<Game> games = new ArrayList<Game>();
+//			final List<String> gameLinks = 
+//				parser.parseGameLinks("http://www.bestbuy.ca/catalog/category.aspx?lang=en-CA&category=23374&Page=1&PageSize=15");
+//			
+//			for(String gameLink : gameLinks) {
+//				games.add(parser.parse(gameLink));
+//			}
+//			
+//			return new GetAllGamesResult(games);
+//			
+//		} catch(Exception ex) {
+//			ex.printStackTrace();
+//			return null;
+//		}
 	}
 
 	@Override

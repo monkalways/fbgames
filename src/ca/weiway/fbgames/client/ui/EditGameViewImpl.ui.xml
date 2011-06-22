@@ -20,6 +20,10 @@
 					<g:TextBox ui:field="txtPrice"></g:TextBox>
 				</g:HorizontalPanel>
 				<g:HorizontalPanel>
+					<g:Label>Image Link</g:Label>
+					<g:TextBox ui:field="txtImageLink"></g:TextBox>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
 					<g:Button ui:field="btnSave">Save</g:Button>
 					<g:Button ui:field="btnCancel">Cancel</g:Button>
 				</g:HorizontalPanel>

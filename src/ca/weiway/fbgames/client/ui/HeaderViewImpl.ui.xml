@@ -1,0 +1,176 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style type="ca.weiway.fbgames.client.ui.HeaderViewImpl.Style">
+		.menu {
+			float: right;
+			margin-top: 10px;
+		}
+
+		.sign {
+			float: right;
+			margin-top: 10px;
+		}
+
+		 .demiliter {
+			display: inline;
+			margin: 0px 10px;
+		}
+
+		/* sign-out */
+		.sign.sign-out .demiliter {
+			display: none;
+		}
+
+		.sign.sign-out .nickname {
+			display: none;
+		}
+
+		.sign.sign-out .signinlink {
+			display: inline;
+		}
+
+		.sign.sign-out .signoutlink {
+			display: none;
+		}
+
+		/* loading */
+		.sign.loading .demiliter{
+			display: none;
+		}
+
+		.sign.loading .nickname{
+			display: inline;
+		}
+
+		.sign.loading .signinlink {
+			display: none;
+		}
+
+		.sign.loading .signoutlink{
+			display: none;
+		}
+
+
+		/* sign-in */
+		.sign.sign-in .nickname {
+			display: inline;
+		}
+
+		.sign.sign-in .demiliter {
+			display: inline;
+			margin: 0px 10px;
+		}
+
+		.sign.sign-in .signinlink {
+			display: none;
+		}
+
+		.sign.sign-in .signoutlink {
+			display: inline;
+		}
+
+		.logo-box {
+			float: left;
+		}
+
+		.logo {
+			display: inline;
+			padding-right: 10px;
+		}
+
+		@if !user.agent ie6 ie8 {
+			.header {
+				position: relative;
+				padding: 0 0px;
+				height: 100%;
+				width: 100%;
+			}
+			.bg {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				background: #F5F5F5;
+				background: -webkit-gradient(linear, literal('left top'),literal('left bottom'), from(#F5F5F5), to(#FFFFFF) );
+				background: -moz-linear-gradient(top, #F5F5F5, #FFFFFF);
+				background: transparent 9;
+				box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+				-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+				-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+			}
+			.ieShadow {
+				display: none;
+			}
+			.headerContents{
+				width: 100%;
+			}
+		} @else {
+			.header {
+				position: relative;
+				padding: 0 0px;
+				height: 100%;
+				z-index: 3;
+				width: 100%;
+			}
+
+			.bg {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				filter: literal("progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF5F5F5',endColorstr='#FFFFFFFF')");
+				z-index: 4;
+			}
+
+			.headerContents {
+				z-index: 10;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+			}
+
+			.ieShadow {
+				display: block;
+				position: absolute;
+				z-index: 2;
+				top: 1px;
+				left: 0px;
+				right: 0px;
+				bottom: -1px;
+				filter: literal("progid : DXImageTransform.Microsoft.Blur ( pixelradius = 2 )");
+				-ms-filter:literal("'progid:DXImageTransform.Microsoft.Blur(pixelradius=2)'");
+				background-color: #444;
+			}
+		}
+
+		.header .menu,.logo-box,.sign {
+			position: relative;
+			color: black;
+		}
+
+		.header a {
+			color: black;
+		}
+	</ui:style>
+	<g:HTMLPanel addStyleNames="{style.header}">
+		<div class="{style.bg}"></div>
+		<div class="{style.headerContents}">
+			<g:HorizontalPanel addStyleNames="{style.logo-box}">
+				<g:HTMLPanel>
+					<h1 class="{style.logo}">FB Games</h1>
+				</g:HTMLPanel>
+			</g:HorizontalPanel>
+			<!-- 
+			<g:HorizontalPanel styleName="{style.menu}">
+				<g:Hyperlink targetHistoryToken="!home:">Home</g:Hyperlink>
+				<g:Label ui:field="myPageDelimiter" styleName="{style.demiliter}">|</g:Label>
+				<g:Hyperlink ui:field="myPageLink" targetHistoryToken="!myPage:">About</g:Hyperlink>
+			</g:HorizontalPanel>
+			 -->
+		</div>
+		<div class="{style.ieShadow}"></div>
+	</g:HTMLPanel>
+</ui:UiBinder> 

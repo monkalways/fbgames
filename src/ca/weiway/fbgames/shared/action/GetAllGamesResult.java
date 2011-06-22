@@ -1,6 +1,7 @@
 package ca.weiway.fbgames.shared.action;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.weiway.fbgames.shared.model.Game;
 
@@ -10,21 +11,21 @@ public class GetAllGamesResult implements Result {
 	
 	private static final long serialVersionUID = -9099789297842581458L;
 	
-	private ArrayList<Game> games;
+	private List<Game> games;
 	
 	public GetAllGamesResult() {
 		
 	}
 	
-	public GetAllGamesResult(ArrayList<Game> games) {
+	public GetAllGamesResult(List<Game> games) {
 		this.games = games;
 	}
 
-	public ArrayList<Game> getGames() {
+	public List<Game> getGames() {
 		return games;
 	}
 
-	public void setGames(ArrayList<Game> games) {
+	public void setGames(List<Game> games) {
 		this.games = games;
 	}
 	
