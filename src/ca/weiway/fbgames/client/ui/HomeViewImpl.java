@@ -66,8 +66,7 @@ public class HomeViewImpl extends Composite implements HomeView {
 		int counter = 0;
 		for(Game game : games) {
 			gamesTable.setWidget(counter, 0, new CheckBox());
-			gamesTable.setWidget(counter, 1, new Anchor(game.getName(), game.getLink()));
-			gamesTable.setWidget(counter, 2, new Label(game.getPrice() + ""));
+			gamesTable.setWidget(counter, 1, new Label(game.getName()));
 			Image gameImage = new Image(game.getImageLink());
 			gameImage.setWidth("200px");
 			gamesTable.setWidget(counter, 3, gameImage);

@@ -1,7 +1,10 @@
 package ca.weiway.fbgames.server.parser;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -10,6 +13,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import ca.weiway.fbgames.shared.model.Game;
+import ca.weiway.fbgames.shared.model.Price;
+import ca.weiway.fbgames.shared.model.PriceSource;
 
 public class GameParserJSoupImpl implements GameParser {
 
@@ -20,7 +25,6 @@ public class GameParserJSoupImpl implements GameParser {
 		}
 		
 		Document doc = Jsoup.connect(url).get();
-		String webId = doc.select("div[id=pdpoverview] ul[class=infos] li[class=first] span").last().text();
 		String title = doc.select("div[id=pdpoverview] h1 span").text();
 		
 		Elements priceElements = doc.select("div[id=pdpoverview] div[class=content] span[class=price]");
@@ -36,14 +40,35 @@ public class GameParserJSoupImpl implements GameParser {
 			}
 		}
 		
+		String releaseDateStr = doc.select("div[id=pdpoverview] ul[class=infos] li span").get(3).text();
+		
 		String imageLink = "http://www.bestbuy.ca" + doc.select("div[id=productdetail] img").attr("src");
 		
 		Game returnValue = new Game();
-		returnValue.setWebId(webId);
-		returnValue.setName(title);
-		returnValue.setPrice(price);
-		returnValue.setLink(url);
+		returnValue.setName(title.substring(0, title.indexOf("(")).trim());
+		returnValue.setPlatform(title.substring(title.indexOf("(") + 1, title.indexOf(")")).trim());
+		returnValue.setCreateDate(new Date());
 		returnValue.setImageLink(imageLink);
+		returnValue.setOnSale(false);
+		returnValue.setRecentPriceDrop(false);
+		returnValue.setUpdateDate(new Date());
+		if(releaseDateStr != null && releaseDateStr.length() != 0) {
+			DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+			try {
+				returnValue.setReleaseDate(format.parse(releaseDateStr));
+			} catch(Exception ex) {
+				
+			}
+		}
+		
+		Price gamePrice = new Price();
+		gamePrice.setPrice(price);
+		gamePrice.setCreateDate(new Date());
+		gamePrice.setGame(returnValue);
+		gamePrice.setLink(url);
+		gamePrice.setSource(PriceSource.BESTBUY);
+		
+		returnValue.getPrices().add(gamePrice);
 		
 		return returnValue;
 	}
