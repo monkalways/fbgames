@@ -8,19 +8,18 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DecoratedTabBar;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
-public class MainViewImpl extends Composite {
+public class MainViewImpl extends Composite implements MainView {
 
 	private static MainViewImplUiBinder uiBinder = GWT
 			.create(MainViewImplUiBinder.class);
 
 	interface MainViewImplUiBinder extends UiBinder<Widget, MainViewImpl> {
 	}
-
+	
 	@Inject
 	public MainViewImpl(ActivityMapper mapper, EventBus eventBus,
 			HeaderView header) {
@@ -29,11 +28,11 @@ public class MainViewImpl extends Composite {
 		this.header = header;
 		homeHeaderPanel.setWidget(header);
 		
-		menuBar.addTab("On Sale!");
-        menuBar.addTab("Recent Price Drops");
-        menuBar.addTab("New Comers");
-        menuBar.addTab("All Games");
-        menuBar.addTab("Admin");
+//		menuBar.addTab("On Sale!");
+//        menuBar.addTab("Recent Price Drops");
+//        menuBar.addTab("New Comers");
+//        menuBar.addTab("All Games");
+//        menuBar.addTab("Admin");
         
         ActivityManager manager = new ActivityManager(mapper, eventBus);
 		manager.setDisplay(contentsPanel);
@@ -41,13 +40,14 @@ public class MainViewImpl extends Composite {
 	
 	private HeaderView header;
 	
-    @UiField
-    DecoratedTabBar menuBar;
+//    @UiField
+//    DecoratedTabBar menuBar;
 
     @UiField
     SimplePanel contentsPanel;
 
     @UiField
     AcceptsOneWidget homeHeaderPanel;
+    
 
 }

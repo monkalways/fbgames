@@ -2,6 +2,7 @@ package ca.weiway.fbgames.client.inject;
 
 import ca.weiway.fbgames.client.ui.EditGameView;
 import ca.weiway.fbgames.client.ui.EditGameViewImpl;
+import ca.weiway.fbgames.client.ui.GxtBinderViewImpl;
 import ca.weiway.fbgames.client.ui.HeaderView;
 import ca.weiway.fbgames.client.ui.HeaderViewImpl;
 import ca.weiway.fbgames.client.ui.HomeView;
@@ -14,9 +15,10 @@ public class ViewModule extends AbstractGinModule {
 
 	@Override
 	protected void configure() {
-		bind(HomeView.class).to(HomeViewImpl.class).in(Singleton.class);
 		bind(HeaderView.class).to(HeaderViewImpl.class).in(Singleton.class);
+		bind(HomeView.class).to(HomeViewImpl.class).in(Singleton.class);
 		bind(EditGameView.class).to(EditGameViewImpl.class).in(Singleton.class);
+		bind(GxtBinderViewImpl.class).in(Singleton.class);
 	}
 
 }

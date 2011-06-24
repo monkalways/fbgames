@@ -18,7 +18,6 @@ public class GuiceServerModule extends ActionHandlerModule {
 
 	@Override
 	protected void configureHandlers() {
-		bind(PersistenceManagerProvider.class).in(com.google.inject.Singleton.class);
 		bind(GameParser.class).to(GameParserJSoupImpl.class).in(com.google.inject.Singleton.class);
 		
 		bindHandler(GetAllGamesAction.class, GetAllGamesHandler.class);

@@ -4,7 +4,6 @@ import net.customware.gwt.dispatch.client.DispatchAsync;
 import ca.weiway.fbgames.client.place.EditGamePlace;
 import ca.weiway.fbgames.client.place.HomePlace;
 import ca.weiway.fbgames.client.ui.EditGameView;
-import ca.weiway.fbgames.shared.action.GetAllGamesResult;
 import ca.weiway.fbgames.shared.action.SaveGameAction;
 import ca.weiway.fbgames.shared.action.SaveGameResult;
 import ca.weiway.fbgames.shared.model.Game;
@@ -55,6 +54,7 @@ public class EditGameActivity extends AppActivity implements EditGameView.Presen
 		game.setName(display.getName());
 //		game.setPrice(display.getPrice());
 		game.setImageLink(display.getImageLink());
+		game.setReleaseDate(display.getReleaseDate());
 		
 		dispatchAsync.execute(new SaveGameAction(game), new AsyncCallback<SaveGameResult>() {
 

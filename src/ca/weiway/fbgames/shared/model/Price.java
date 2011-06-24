@@ -3,40 +3,40 @@ package ca.weiway.fbgames.shared.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
-@PersistenceCapable(identityType=IdentityType.APPLICATION)
+import org.datanucleus.jpa.annotations.Extension;
+
+@Entity
 public class Price implements Serializable {
 private static final long serialVersionUID = -4415279469780082174L;
 	
-	@PrimaryKey
-	@Persistent(valueStrategy=IdGeneratorStrategy.IDENTITY)
-	private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+	private String id;
 
-	@Persistent
 	private String link;
 	
-	@Persistent
+	@ManyToOne (cascade=CascadeType.ALL)
 	private Game game;
 
-	@Persistent
 	private Double price;
 	
-	@Persistent
 	private Date createDate;
 	
-	@Persistent
 	private PriceSource source;
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

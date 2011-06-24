@@ -11,6 +11,10 @@ import ca.weiway.fbgames.shared.action.GetAllGamesAction;
 import ca.weiway.fbgames.shared.action.GetAllGamesResult;
 import ca.weiway.fbgames.shared.model.Game;
 
+import com.extjs.gxt.ui.client.data.BeanModel;
+import com.extjs.gxt.ui.client.data.BeanModelFactory;
+import com.extjs.gxt.ui.client.data.BeanModelLookup;
+import com.extjs.gxt.ui.client.store.ListStore;
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
@@ -23,17 +27,21 @@ public class HomeActivity extends AbstractActivity implements
 		HomeView.Presenter {
 
 	private HomeView display;
+	
+	@Inject
 	private PlaceController placeController;
+	
 	private DispatchAsync dispatchAsync;
+	private ListStore<BeanModel> gameStore;
 	private List<Game> games;
 
 	@Inject
 	public HomeActivity(final HomeView homeView,
-			final PlaceController placeController,
-			final DispatchAsync dispatchAsync) {
+			final DispatchAsync dispatchAsync,
+			final ListStore<BeanModel> gameStore) {
 		this.display = homeView;
-		this.placeController = placeController;
 		this.dispatchAsync = dispatchAsync;
+		this.gameStore = gameStore;
 	}
 
 	@Override
@@ -58,8 +66,12 @@ public class HomeActivity extends AbstractActivity implements
 			@Override
 			public void onSuccess(final GetAllGamesResult result) {
 				games = result.getGames();
-				display.setGames(games);
-				display.setLoading(false);
+				gameStore.removeAll();
+				for (Game game : games) {
+					BeanModelFactory beanModelFactory = BeanModelLookup.get()
+							.getFactory(game.getClass());
+					gameStore.add(beanModelFactory.createModel(game));
+				}
 			}
 		});
 	}

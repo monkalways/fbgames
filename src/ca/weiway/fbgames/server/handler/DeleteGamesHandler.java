@@ -2,12 +2,12 @@ package ca.weiway.fbgames.server.handler;
 
 import java.util.List;
 
-import javax.jdo.PersistenceManager;
+import javax.persistence.EntityManager;
 
 import net.customware.gwt.dispatch.server.ActionHandler;
 import net.customware.gwt.dispatch.server.ExecutionContext;
 import net.customware.gwt.dispatch.shared.DispatchException;
-import ca.weiway.fbgames.server.guice.PersistenceManagerProvider;
+import ca.weiway.fbgames.server.guice.EntityManagerProvider;
 import ca.weiway.fbgames.shared.action.DeleteGamesAction;
 import ca.weiway.fbgames.shared.action.DeleteGamesResult;
 import ca.weiway.fbgames.shared.model.Game;
@@ -16,30 +16,30 @@ import com.google.inject.Inject;
 
 public class DeleteGamesHandler implements ActionHandler<DeleteGamesAction, DeleteGamesResult> {
 	
-	private PersistenceManagerProvider pmp;
+	private EntityManagerProvider emp;
 	
 	@Inject
-	public DeleteGamesHandler(PersistenceManagerProvider pmp) {
-		this.pmp = pmp;
+	public DeleteGamesHandler(EntityManagerProvider pmp) {
+		this.emp = pmp;
 	}
 
 	@Override
 	public DeleteGamesResult execute(DeleteGamesAction action,
 			ExecutionContext context) throws DispatchException {
-		PersistenceManager pm = pmp.get();
+		EntityManager em = emp.get();
 
 		try {
 			
 			List<Long> gameIdsToDelete = action.getGameIdsToDelete();
 			
 			for(Long gameIdToDelete : gameIdsToDelete) {
-				Game gameToDelete = (Game)pm.getObjectById(Game.class, gameIdToDelete);
-				pm.deletePersistent(gameToDelete);
+				Game gameToDelete = (Game)em.find(Game.class, gameIdToDelete);
+				em.remove(gameToDelete);
 			}
 
 			return new DeleteGamesResult();
 		} finally {
-			pm.close();
+			em.close();
 		}
 	}
 

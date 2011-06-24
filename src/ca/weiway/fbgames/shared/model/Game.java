@@ -5,49 +5,41 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.jdo.annotations.Element;
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
-@PersistenceCapable(identityType=IdentityType.APPLICATION)
+import com.extjs.gxt.ui.client.data.BeanModelTag;
+
+@Entity
 public class Game implements Serializable {
 	
 	private static final long serialVersionUID = -4415279469780082174L;
 	
-	@PrimaryKey
-	@Persistent(valueStrategy=IdGeneratorStrategy.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Persistent
 	private String name;
 	
-	
-	@Persistent
 	private String imageLink;
 
-	@Persistent
 	private Date releaseDate;
 	
-	@Persistent
 	private Date createDate;
 	
-	@Persistent
 	private Date updateDate;
 	
-	@Persistent
 	private Boolean onSale;
 	
-	@Persistent
 	private Boolean recentPriceDrop;
 	
-	@Persistent
 	private String platform;
 	
-	@Persistent(mappedBy = "game")
-	@Element(dependent = "true")
+	@OneToMany(mappedBy="game",cascade=CascadeType.ALL)
 	private Set<Price> prices = new HashSet<Price>();
 	
 	public Date getReleaseDate() {
@@ -130,5 +122,6 @@ public class Game implements Serializable {
 	public void setPrices(Set<Price> prices) {
 		this.prices = prices;
 	}
+
 
 }

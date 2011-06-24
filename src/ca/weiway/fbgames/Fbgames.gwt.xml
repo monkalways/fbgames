@@ -12,11 +12,15 @@
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
   <!-- Other module inherits                                      -->
+  <inherits name='com.extjs.gxt.ui.GXT'/>
   <inherits name='com.google.gwt.inject.Inject' />
   <inherits name='com.google.gwt.activity.Activity' />
   <inherits name='com.google.gwt.place.Place' />
-  <inherits name="net.customware.gwt.dispatch.Dispatch" />
-
+  <inherits name='net.customware.gwt.dispatch.Dispatch' />
+  <inherits name='com.jhickman.web.gwt.gxtuibinder.GxtUiBinder' />
+  <inherits name='com.jhickman.web.gwt.customuibinder.CustomUiBinder' />
+  <inherits name="com.extjs.gxt.themes.Themes"/>
+  
   <!-- Specify the app entry point class.                         -->
   <entry-point class='ca.weiway.fbgames.client.Fbgames'/>
 

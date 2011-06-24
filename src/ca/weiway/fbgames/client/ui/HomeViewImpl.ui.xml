@@ -1,42 +1,44 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
-<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style>
-		.vertialPanel
-		{
-			padding-bottom: 10px;
-		}
-		.gamesViewButtonHPanel
-		{
-			margin: 5px 0px 0x 5px;
-        }
-		.gamesViewContactsFlexTable
-		{
-			margin: 5px 0px 5px 0px; 
-		}
-		.white
-		{
-			color: white;
-		}
-	</ui:style>
-	<ui:with type="ca.weiway.fbgames.client.bundle.FBGamesClientBundle"
-		field="bundle"></ui:with>
-	<g:HTMLPanel>
-		<g:DecoratorPanel>
-			<g:VerticalPanel addStyleNames="{style.vertialPanel}">
-				<g:HorizontalPanel addStyleNames="{style.gamesViewButtonHPanel}">
-					<g:Button ui:field="addButton">Add</g:Button>
-					<g:Button ui:field="deleteButton">Delete</g:Button>
-				</g:HorizontalPanel>
-				<g:HorizontalPanel width="100%">
-					<g:Cell horizontalAlignment="ALIGN_CENTER">
-						<g:Image resource="{bundle.loading}" visible="false" 
-							ui:field="loading"></g:Image>
-					</g:Cell>
-				</g:HorizontalPanel>
-				<g:FlexTable ui:field="gamesTable"
-					addStyleNames="{style.gamesViewContactsFlexTable}" />
-			</g:VerticalPanel>
-		</g:DecoratorPanel>
-	</g:HTMLPanel>
-</ui:UiBinder> 
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:gxt="urn:import:com.extjs.gxt.ui.client.widget"
+	xmlns:toolbar="urn:import:com.extjs.gxt.ui.client.widget.toolbar"
+	xmlns:form="urn:import:com.extjs.gxt.ui.client.widget.form" 
+	xmlns:grid="urn:import:com.extjs.gxt.ui.client.widget.grid"
+	xmlns:button="urn:import:com.extjs.gxt.ui.client.widget.button">
+
+	<ui:with type="ca.weiway.fbgames.client.resource.icons.ExampleIcons" field="icons" />
+	<ui:with type="com.extjs.gxt.ui.client.store.ListStore" field="store" />
+	<ui:with type="com.google.gwt.i18n.client.DateTimeFormat"
+		field="dateformat" />
+	<!-- 
+	<ui:with type="ca.weiway.fbgames.client.ui.HomeViewImpl.ChangeCellRenderer"
+		field="change" />
+	<ui:with type="ca.weiway.fbgames.client.ui.HomeViewImpl.GridNumberRenderer"
+		field="gridNumber" />
+	 -->
+	
+	<gxt:LayoutContainer layout="FlowLayout">
+		<gxt:layoutdata type="FlowData" margins="10">
+			<gxt:ContentPanel bodyBorder="true" icon="{icons.table}"
+				heading="Games" buttonAlign="CENTER" layout="FitLayout" width="600"
+				height="300" collapsible="true">
+				<gxt:topcomponent>
+					<toolbar:ToolBar>
+						<button:Button ui:field="btnAdd" scale="SMALL" iconAlign="LEFT" 
+									   icon="{icons.add}" text="Add Game" />
+					</toolbar:ToolBar>
+				</gxt:topcomponent>
+
+				<grid:Grid store="{store}" ui:field="grid" styleAttribute="borderTop:none"
+						   autoExpandColumn="name" borders="false" stripeRows="true"
+						   columnLines="true" columnReordering="true">
+					<grid:column id="name" header="Name" width="200"
+						rowHeader="true" />
+					<grid:column id="releaseDate" header="Release Date" width="100"
+						alignment="RIGHT" dateTimeFormat="{dateformat}" />
+				</grid:Grid>
+			</gxt:ContentPanel>
+		</gxt:layoutdata>
+	</gxt:LayoutContainer>
+
+</ui:UiBinder>

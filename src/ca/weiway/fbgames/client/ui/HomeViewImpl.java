@@ -1,97 +1,134 @@
 package ca.weiway.fbgames.client.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ca.weiway.fbgames.client.place.EditGamePlace;
 import ca.weiway.fbgames.shared.model.Game;
 
+import com.extjs.gxt.ui.client.data.BeanModel;
+import com.extjs.gxt.ui.client.data.ModelData;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.SelectionEvent;
+import com.extjs.gxt.ui.client.store.ListStore;
+import com.extjs.gxt.ui.client.widget.Component;
+import com.extjs.gxt.ui.client.widget.Composite;
+import com.extjs.gxt.ui.client.widget.MessageBox;
+import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.grid.Grid;
+import com.extjs.gxt.ui.client.widget.table.NumberCellRenderer;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.jhickman.web.gwt.gxtuibinder.client.GxtEvent;
+import com.jhickman.web.gwt.gxtuibinder.client.GxtUiHandler;
 
 public class HomeViewImpl extends Composite implements HomeView {
+	
+	private ListStore<BeanModel> gameStore; 
 
 	private static HomeViewImplUiBinder uiBinder = GWT
 			.create(HomeViewImplUiBinder.class);
 
-	interface HomeViewImplUiBinder extends UiBinder<Widget, HomeViewImpl> {
+	interface HomeViewImplUiBinder extends UiBinder<Component, HomeViewImpl> {
 	}
+
+	@Inject
+	public HomeViewImpl(ListStore<BeanModel> gameStore) {
+		this.gameStore = gameStore;
+		
+		initComponent(uiBinder.createAndBindUi(this));
+	}
+	
+	@UiField
+	Button btnAdd;
+	
+	@UiField
+	Grid<BeanModel> grid;
+
+	private static final NumberFormat CURRENCY_NUMBERFORMAT = NumberFormat
+			.getCurrencyFormat();
+	private static final NumberFormat NUMBER_FORMAT = NumberFormat
+			.getFormat("0.00");
+	private static final NumberCellRenderer<Grid<BeanModel>> NUMBER_RENDERER = new NumberCellRenderer<Grid<BeanModel>>(
+			CURRENCY_NUMBERFORMAT);
 	
 	private Presenter presenter;
-	
-	@UiField
-	Button addButton;
-	
-	@UiField
-	Button deleteButton;
-	
-	@UiField
-	FlexTable gamesTable;
-	
-	@UiField
-	Image loading;
-	
-	public HomeViewImpl() {
-		initWidget(uiBinder.createAndBindUi(this));
+
+	@UiFactory
+	public ListStore<BeanModel> provideStore() {
+//		ListStore<ModelData> store = new ListStore<ModelData>();
+//
+//	    ModelData model = new BaseModel();
+//	    model.set("name", "Justin");
+//	    model.set("releaseDate", new Date());
+//	    store.add(model);
+//	    
+//	    return store;
+		return gameStore;
 	}
-	
+
+	@UiFactory
+	public DateTimeFormat provideDateFormat() {
+		return DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT);
+	}
+
+	@GxtUiHandler(uiField = "btnAdd", eventType = GxtEvent.Select)
+	public void onAddButtonClicked(ButtonEvent event) {
+		presenter.goTo(new EditGamePlace());
+	}
+
+	@Override
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
-	}
-	
-	@UiHandler("addButton")
-	void onAddButtonClicked(ClickEvent e) {
-        presenter.goTo(new EditGamePlace());
-	}
-	
-	@UiHandler("deleteButton")
-	void onDeleteButtonClicked(ClickEvent e) {
-		presenter.deleteGames();
 	}
 
 	@Override
 	public void setGames(List<Game> games) {
-		gamesTable.removeAllRows();
-		int counter = 0;
-		for(Game game : games) {
-			gamesTable.setWidget(counter, 0, new CheckBox());
-			gamesTable.setWidget(counter, 1, new Label(game.getName()));
-			Image gameImage = new Image(game.getImageLink());
-			gameImage.setWidth("200px");
-			gamesTable.setWidget(counter, 3, gameImage);
-			counter ++;
-		}
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public List<Integer> getSelectedRows() {
-		List<Integer> selectedRows = new ArrayList<Integer>();
-
-		for (int i = 0; i < gamesTable.getRowCount(); ++i) {
-			CheckBox checkBox = (CheckBox) gamesTable.getWidget(i, 0);
-			if (checkBox.getValue()) {
-				selectedRows.add(i);
-			}
-		}
-		
-		return selectedRows;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public void setLoading(boolean isloading) {
-		loading.setVisible(isloading);
-		gamesTable.setVisible(!isloading);
+		// TODO Auto-generated method stub
+		
 	}
+
+//	public static final class ChangeCellRenderer implements
+//			GridCellRenderer<BeanModel> {
+//		public String render(Stock model, String property, ColumnData config,
+//				int rowIndex, int colIndex, ListStore<Stock> store,
+//				Grid<Stock> grid) {
+//			double val = (Double) model.get(property);
+//			String style = val < 0 ? "red" : GXT.isHighContrastMode ? "#00ff5a"
+//					: "green";
+//			String v = NUMBER_FORMAT.format(val);
+//
+//			return "<span qtitle='"
+//					+ grid.getColumnModel().getColumnById(property).getHeader()
+//					+ "' qtip='" + v + "' style='font-weight: bold;color:"
+//					+ style + "'>" + v + "</span>";
+//		}
+//	}
+//
+//	public static final class GridNumberRenderer implements
+//			GridCellRenderer<Stock> {
+//		public String render(Stock model, String property, ColumnData config,
+//				int rowIndex, int colIndex, ListStore<Stock> store,
+//				Grid<Stock> grid) {
+//			return NUMBER_RENDERER.render(null, property, model.get(property));
+//		}
+//	}
 
 }

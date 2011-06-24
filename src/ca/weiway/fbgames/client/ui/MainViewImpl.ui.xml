@@ -30,9 +30,11 @@
 		<g:VerticalPanel>
 			<g:SimplePanel addStyleNames="{style.homeHeader}" ui:field="homeHeaderPanel">
 			</g:SimplePanel>
+			<!-- 
 			<g:DecoratedTabBar addStyleNames="{style.menuBar}" ui:field="menuBar"/>
+			 -->
 		</g:VerticalPanel>
-		<div class="{style.contentsPanelBack}">
+		<div>
 			<g:SimplePanel addStyleNames="{style.contentsPanel}" ui:field="contentsPanel"/>
 		</div>
 	</g:HTMLPanel>

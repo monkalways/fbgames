@@ -1,17 +1,8 @@
 package ca.weiway.fbgames.client.ui;
 
-import com.google.gwt.activity.shared.ActivityManager;
-import com.google.gwt.activity.shared.ActivityMapper;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.inject.Inject;
+import com.google.gwt.place.shared.Place;
+import com.google.gwt.user.client.ui.IsWidget;
 
-public class MainView extends SimplePanel {
-	
-	@Inject
-	public MainView(ActivityMapper mapper, EventBus eventBus) {
-		ActivityManager manager = new ActivityManager(mapper, eventBus);
-		manager.setDisplay(this);
-	}
-	
+public interface MainView extends IsWidget {
+
 }

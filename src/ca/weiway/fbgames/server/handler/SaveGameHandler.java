@@ -1,24 +1,25 @@
 package ca.weiway.fbgames.server.handler;
 
 import javax.jdo.PersistenceManager;
+import javax.persistence.EntityManager;
 
 import com.google.inject.Inject;
 
 import net.customware.gwt.dispatch.server.ActionHandler;
 import net.customware.gwt.dispatch.server.ExecutionContext;
 import net.customware.gwt.dispatch.shared.DispatchException;
-import ca.weiway.fbgames.server.guice.PersistenceManagerProvider;
+import ca.weiway.fbgames.server.guice.EntityManagerProvider;
 import ca.weiway.fbgames.shared.action.SaveGameAction;
 import ca.weiway.fbgames.shared.action.SaveGameResult;
 import ca.weiway.fbgames.shared.model.Game;
 
 public class SaveGameHandler implements ActionHandler<SaveGameAction, SaveGameResult> {
 	
-	private PersistenceManagerProvider pmp;
+	private EntityManagerProvider emp;
 	
 	@Inject
-	public SaveGameHandler(final PersistenceManagerProvider pmp) {
-		this.pmp = pmp;
+	public SaveGameHandler(final EntityManagerProvider pmp) {
+		this.emp = pmp;
 	}
 
 	@Override
@@ -27,13 +28,13 @@ public class SaveGameHandler implements ActionHandler<SaveGameAction, SaveGameRe
 		
 		final Game gameToSave = action.getGame();
 		final SaveGameResult retval = new SaveGameResult();
-		final PersistenceManager pm = pmp.get();
+		final EntityManager em = emp.get();
 		
 		try {
-			pm.makePersistent(gameToSave);
+			em.persist(gameToSave);
 			retval.setSuccess(true);
 		} finally {
-			pm.close();
+			em.close();
 		}
 
 		return retval;
