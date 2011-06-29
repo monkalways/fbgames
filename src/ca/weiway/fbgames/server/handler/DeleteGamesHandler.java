@@ -1,5 +1,6 @@
 package ca.weiway.fbgames.server.handler;
 
+import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -11,6 +12,7 @@ import ca.weiway.fbgames.server.guice.EntityManagerProvider;
 import ca.weiway.fbgames.shared.action.DeleteGamesAction;
 import ca.weiway.fbgames.shared.action.DeleteGamesResult;
 import ca.weiway.fbgames.shared.model.Game;
+import ca.weiway.fbgames.shared.model.Price;
 
 import com.google.inject.Inject;
 
@@ -34,6 +36,10 @@ public class DeleteGamesHandler implements ActionHandler<DeleteGamesAction, Dele
 			
 			for(Long gameIdToDelete : gameIdsToDelete) {
 				Game gameToDelete = (Game)em.find(Game.class, gameIdToDelete);
+				for(Price price : gameToDelete.getPrices()) {
+					em.remove(price);
+				}
+//				gameToDelete.getPrices().clear();
 				em.remove(gameToDelete);
 			}
 

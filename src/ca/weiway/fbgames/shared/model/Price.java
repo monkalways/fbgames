@@ -23,7 +23,7 @@ private static final long serialVersionUID = -4415279469780082174L;
 
 	private String link;
 	
-	@ManyToOne (cascade=CascadeType.ALL)
+	@ManyToOne
 	private Game game;
 
 	private Double price;

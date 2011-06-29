@@ -12,7 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.extjs.gxt.ui.client.data.BeanModelTag;
+import com.google.gwt.user.client.rpc.GwtTransient;
 
 @Entity
 public class Game implements Serializable {
@@ -39,7 +39,8 @@ public class Game implements Serializable {
 	
 	private String platform;
 	
-	@OneToMany(mappedBy="game",cascade=CascadeType.ALL)
+	@GwtTransient
+	@OneToMany(mappedBy="game", cascade=CascadeType.ALL)
 	private Set<Price> prices = new HashSet<Price>();
 	
 	public Date getReleaseDate() {

@@ -19,24 +19,27 @@
 	
 	<gxt:LayoutContainer layout="FlowLayout">
 		<gxt:layoutdata type="FlowData" margins="10">
-			<gxt:ContentPanel bodyBorder="true" icon="{icons.table}"
-				heading="Games" buttonAlign="CENTER" layout="FitLayout" width="600"
-				height="300" collapsible="true">
+			<gxt:ContentPanel ui:field="contentPanel" bodyBorder="true" icon="{icons.table}"
+				heading="Games" buttonAlign="CENTER" layout="FitLayout" width="800"
+				height="600" collapsible="true">
 				<gxt:topcomponent>
 					<toolbar:ToolBar>
-						<button:Button ui:field="btnAdd" scale="SMALL" iconAlign="LEFT" 
-									   icon="{icons.add}" text="Add Game" />
+						<button:Button ui:field="btnImport" scale="SMALL" iconAlign="LEFT" 
+									   icon="{icons.add}" text="Import Game" />
 					</toolbar:ToolBar>
 				</gxt:topcomponent>
-
+				<!-- 
 				<grid:Grid store="{store}" ui:field="grid" styleAttribute="borderTop:none"
-						   autoExpandColumn="name" borders="false" stripeRows="true"
+						   borders="false" stripeRows="true"
 						   columnLines="true" columnReordering="true">
+					
 					<grid:column id="name" header="Name" width="200"
 						rowHeader="true" />
 					<grid:column id="releaseDate" header="Release Date" width="100"
 						alignment="RIGHT" dateTimeFormat="{dateformat}" />
+					
 				</grid:Grid>
+				-->
 			</gxt:ContentPanel>
 		</gxt:layoutdata>
 	</gxt:LayoutContainer>

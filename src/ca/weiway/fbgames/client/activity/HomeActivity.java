@@ -5,10 +5,13 @@ import java.util.List;
 
 import net.customware.gwt.dispatch.client.DispatchAsync;
 import ca.weiway.fbgames.client.ui.HomeView;
+import ca.weiway.fbgames.client.ui.popup.IImportGameDialog;
 import ca.weiway.fbgames.shared.action.DeleteGamesAction;
 import ca.weiway.fbgames.shared.action.DeleteGamesResult;
 import ca.weiway.fbgames.shared.action.GetAllGamesAction;
 import ca.weiway.fbgames.shared.action.GetAllGamesResult;
+import ca.weiway.fbgames.shared.action.ImportGameAction;
+import ca.weiway.fbgames.shared.action.ImportGameResult;
 import ca.weiway.fbgames.shared.model.Game;
 
 import com.extjs.gxt.ui.client.data.BeanModel;
@@ -24,12 +27,15 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
 
 public class HomeActivity extends AbstractActivity implements
-		HomeView.Presenter {
+		HomeView.Presenter, IImportGameDialog.Presenter {
 
 	private HomeView display;
 	
 	@Inject
 	private PlaceController placeController;
+	
+	@Inject
+	private IImportGameDialog importGameDialog;
 	
 	private DispatchAsync dispatchAsync;
 	private ListStore<BeanModel> gameStore;
@@ -77,12 +83,11 @@ public class HomeActivity extends AbstractActivity implements
 	}
 
 	@Override
-	public void deleteGames() {
-		List<Integer> selectedRows = display.getSelectedRows();
+	public void deleteGame(Long gameId) {
 		List<Long> gameIdsToDelete = new ArrayList<Long>();
-		for(Integer selectedRow : selectedRows) {
-			gameIdsToDelete.add(games.get(selectedRow).getId());
-		}
+		
+		gameIdsToDelete.add(gameId);
+		
 		dispatchAsync.execute(new DeleteGamesAction(gameIdsToDelete), new AsyncCallback<DeleteGamesResult>() {
 			@Override
 			public void onFailure(final Throwable caught) {
@@ -93,6 +98,28 @@ public class HomeActivity extends AbstractActivity implements
 				loadGames();
 			}
 		});
+	}
+
+	@Override
+	public void showImportGameDialog() {
+		importGameDialog.setPresenter(this);
+		importGameDialog.show();
+	}
+
+	@Override
+	public void importGame(String gameLink) {
+		dispatchAsync.execute(new ImportGameAction(gameLink), new AsyncCallback<ImportGameResult>() {
+			@Override
+			public void onFailure(final Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(final ImportGameResult result) {
+				loadGames();
+				importGameDialog.hide();
+			}
+		});
+		
 	}
 
 }

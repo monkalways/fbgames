@@ -1,9 +1,6 @@
 package ca.weiway.fbgames.server.handler;
 
-import javax.jdo.PersistenceManager;
 import javax.persistence.EntityManager;
-
-import com.google.inject.Inject;
 
 import net.customware.gwt.dispatch.server.ActionHandler;
 import net.customware.gwt.dispatch.server.ExecutionContext;
@@ -12,6 +9,8 @@ import ca.weiway.fbgames.server.guice.EntityManagerProvider;
 import ca.weiway.fbgames.shared.action.SaveGameAction;
 import ca.weiway.fbgames.shared.action.SaveGameResult;
 import ca.weiway.fbgames.shared.model.Game;
+
+import com.google.inject.Inject;
 
 public class SaveGameHandler implements ActionHandler<SaveGameAction, SaveGameResult> {
 	

@@ -14,12 +14,14 @@ public interface HomeView extends IsWidget {
 	interface Presenter {
 		void goTo(Place place);
 
-		void deleteGames();
+		void deleteGame(Long gameId);
+
+		void showImportGameDialog();
 	}
 
 	void setGames(List<Game> games);
 
-	List<Integer> getSelectedRows();
+	public Long getSelectedId();
 
 	void setLoading(boolean isloading);
 	

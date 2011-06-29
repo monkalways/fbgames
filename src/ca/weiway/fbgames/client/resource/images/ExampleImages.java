@@ -9,181 +9,184 @@ package ca.weiway.fbgames.client.resource.images;
 
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.ImageBundle;
+
 @SuppressWarnings("deprecation")
 public interface ExampleImages extends ImageBundle {
+	
+	AbstractImagePrototype xbox360();
 
-  AbstractImagePrototype accordionlayout();
+	AbstractImagePrototype accordionlayout();
 
-  AbstractImagePrototype accordionwindow();
+	AbstractImagePrototype accordionwindow();
 
-  AbstractImagePrototype advancedcharts();
+	AbstractImagePrototype advancedcharts();
 
-  AbstractImagePrototype advancedcombobox();
+	AbstractImagePrototype advancedcombobox();
 
-  AbstractImagePrototype advancedforms();
+	AbstractImagePrototype advancedforms();
 
-  AbstractImagePrototype advancedlistview();
+	AbstractImagePrototype advancedlistview();
 
-  AbstractImagePrototype advancedtabs();
+	AbstractImagePrototype advancedtabs();
 
-  AbstractImagePrototype advancedtoolbar();
+	AbstractImagePrototype advancedtoolbar();
 
-  AbstractImagePrototype aggregationrowgrid();
+	AbstractImagePrototype aggregationrowgrid();
 
-  AbstractImagePrototype anchorlayout();
+	AbstractImagePrototype anchorlayout();
 
-  AbstractImagePrototype asynctree();
+	AbstractImagePrototype asynctree();
 
-  AbstractImagePrototype asynctreegrid();
+	AbstractImagePrototype asynctreegrid();
 
-  AbstractImagePrototype asyncxmltreepanel();
+	AbstractImagePrototype asyncxmltreepanel();
 
-  AbstractImagePrototype basicbinding();
+	AbstractImagePrototype basicbinding();
 
-  AbstractImagePrototype basicchart();
+	AbstractImagePrototype basicchart();
 
-  AbstractImagePrototype basicdnd();
+	AbstractImagePrototype basicdnd();
 
-  AbstractImagePrototype basicgrid();
+	AbstractImagePrototype basicgrid();
 
-  AbstractImagePrototype basictabs();
+	AbstractImagePrototype basictabs();
 
-  AbstractImagePrototype basictoolbar();
+	AbstractImagePrototype basictoolbar();
 
-  AbstractImagePrototype basictree();
+	AbstractImagePrototype basictree();
 
-  AbstractImagePrototype basictreegrid();
+	AbstractImagePrototype basictreegrid();
 
-  AbstractImagePrototype beanmodelgrid();
+	AbstractImagePrototype beanmodelgrid();
 
-  AbstractImagePrototype borderlayout();
+	AbstractImagePrototype borderlayout();
 
-  AbstractImagePrototype bufferedgrid();
+	AbstractImagePrototype bufferedgrid();
 
-  AbstractImagePrototype buttonaligning();
+	AbstractImagePrototype buttonaligning();
 
-  AbstractImagePrototype buttons();
+	AbstractImagePrototype buttons();
 
-  AbstractImagePrototype cardlayout();
+	AbstractImagePrototype cardlayout();
 
-  AbstractImagePrototype centerlayout();
+	AbstractImagePrototype centerlayout();
 
-  AbstractImagePrototype chartgallery();
+	AbstractImagePrototype chartgallery();
 
-  AbstractImagePrototype checkboxlistview();
+	AbstractImagePrototype checkboxlistview();
 
-  AbstractImagePrototype checkboxtree();
+	AbstractImagePrototype checkboxtree();
 
-  AbstractImagePrototype columngrouping();
+	AbstractImagePrototype columngrouping();
 
-  AbstractImagePrototype combobox();
+	AbstractImagePrototype combobox();
 
-  AbstractImagePrototype contextmenutree();
+	AbstractImagePrototype contextmenutree();
 
-  AbstractImagePrototype customslider();
+	AbstractImagePrototype customslider();
 
-  AbstractImagePrototype datepicker();
+	AbstractImagePrototype datepicker();
 
-  AbstractImagePrototype dialog();
+	AbstractImagePrototype dialog();
 
-  AbstractImagePrototype draggable();
+	AbstractImagePrototype draggable();
 
-  AbstractImagePrototype duallistfield();
+	AbstractImagePrototype duallistfield();
 
-  AbstractImagePrototype editablebufferedgrid();
+	AbstractImagePrototype editablebufferedgrid();
 
-  AbstractImagePrototype editablegrid();
+	AbstractImagePrototype editablegrid();
 
-  AbstractImagePrototype editortreegrid();
+	AbstractImagePrototype editortreegrid();
 
-  AbstractImagePrototype fasttree();
+	AbstractImagePrototype fasttree();
 
-  AbstractImagePrototype fileupload();
+	AbstractImagePrototype fileupload();
 
-  AbstractImagePrototype filtertree();
-  
-  AbstractImagePrototype filtertreegrid();
+	AbstractImagePrototype filtertree();
 
-  AbstractImagePrototype forms();
+	AbstractImagePrototype filtertreegrid();
 
-  AbstractImagePrototype fx();
+	AbstractImagePrototype forms();
 
-  AbstractImagePrototype gridbinding();
+	AbstractImagePrototype fx();
 
-  AbstractImagePrototype gridplugins();
+	AbstractImagePrototype gridbinding();
 
-  AbstractImagePrototype gridstorebinding();
+	AbstractImagePrototype gridplugins();
 
-  AbstractImagePrototype gridtogrid();
+	AbstractImagePrototype gridstorebinding();
 
-  AbstractImagePrototype grouping();
+	AbstractImagePrototype gridtogrid();
 
-  AbstractImagePrototype hboxlayout();
+	AbstractImagePrototype grouping();
 
-  AbstractImagePrototype helloworld();
+	AbstractImagePrototype hboxlayout();
 
-  AbstractImagePrototype imageorganizer();
+	AbstractImagePrototype helloworld();
 
-  AbstractImagePrototype jsongrid();
+	AbstractImagePrototype imageorganizer();
 
-  AbstractImagePrototype listtolist();
+	AbstractImagePrototype jsongrid();
 
-  AbstractImagePrototype listview();
-  
-  AbstractImagePrototype livegrid();
+	AbstractImagePrototype listtolist();
 
-  AbstractImagePrototype livegroupsummary();
+	AbstractImagePrototype listview();
 
-  AbstractImagePrototype localpaging();
+	AbstractImagePrototype livegrid();
 
-  AbstractImagePrototype menubar();
+	AbstractImagePrototype livegroupsummary();
 
-  AbstractImagePrototype messagebox();
-  
-  AbstractImagePrototype multicomponent();
+	AbstractImagePrototype localpaging();
 
-  AbstractImagePrototype overflowtoolbar();
+	AbstractImagePrototype menubar();
 
-  AbstractImagePrototype paging();
+	AbstractImagePrototype messagebox();
 
-  AbstractImagePrototype pagingbeanmodelgrid();
+	AbstractImagePrototype multicomponent();
 
-  AbstractImagePrototype portal();
+	AbstractImagePrototype overflowtoolbar();
 
-  AbstractImagePrototype reorderingtree();
-  
-  AbstractImagePrototype reorderingtreegrid();
+	AbstractImagePrototype paging();
 
-  AbstractImagePrototype resizable();
+	AbstractImagePrototype pagingbeanmodelgrid();
 
-  AbstractImagePrototype roweditorgrid();
+	AbstractImagePrototype portal();
 
-  AbstractImagePrototype roweditortreegrid();
+	AbstractImagePrototype reorderingtree();
 
-  AbstractImagePrototype rowlayout();
+	AbstractImagePrototype reorderingtreegrid();
 
-  AbstractImagePrototype rownumbertreegrid();
+	AbstractImagePrototype resizable();
 
-  AbstractImagePrototype slider();
+	AbstractImagePrototype roweditorgrid();
 
-  AbstractImagePrototype statustoolbar();
+	AbstractImagePrototype roweditortreegrid();
 
-  AbstractImagePrototype templates();
+	AbstractImagePrototype rowlayout();
 
-  AbstractImagePrototype tooltips();
+	AbstractImagePrototype rownumbertreegrid();
 
-  AbstractImagePrototype treegridtotreegrid();
+	AbstractImagePrototype slider();
 
-  AbstractImagePrototype treetotree();
+	AbstractImagePrototype statustoolbar();
 
-  AbstractImagePrototype vboxlayout();
+	AbstractImagePrototype templates();
 
-  AbstractImagePrototype widgetrenderergrid();
-  
-  AbstractImagePrototype filtergrid();
-  
-  AbstractImagePrototype widgetrenderertreegrid();
+	AbstractImagePrototype tooltips();
 
-  AbstractImagePrototype xmlgrid();
+	AbstractImagePrototype treegridtotreegrid();
+
+	AbstractImagePrototype treetotree();
+
+	AbstractImagePrototype vboxlayout();
+
+	AbstractImagePrototype widgetrenderergrid();
+
+	AbstractImagePrototype filtergrid();
+
+	AbstractImagePrototype widgetrenderertreegrid();
+
+	AbstractImagePrototype xmlgrid();
 
 }
