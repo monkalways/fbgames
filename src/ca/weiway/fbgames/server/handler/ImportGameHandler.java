@@ -1,10 +1,10 @@
 package ca.weiway.fbgames.server.handler;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
-
-import com.google.inject.Inject;
+import javax.persistence.Query;
 
 import net.customware.gwt.dispatch.server.ActionHandler;
 import net.customware.gwt.dispatch.server.ExecutionContext;
@@ -14,6 +14,10 @@ import ca.weiway.fbgames.server.parser.GameParser;
 import ca.weiway.fbgames.shared.action.ImportGameAction;
 import ca.weiway.fbgames.shared.action.ImportGameResult;
 import ca.weiway.fbgames.shared.model.Game;
+import ca.weiway.fbgames.shared.model.Price;
+import ca.weiway.fbgames.shared.model.PriceSource;
+
+import com.google.inject.Inject;
 
 public class ImportGameHandler implements ActionHandler<ImportGameAction, ImportGameResult> {
 	
@@ -29,17 +33,15 @@ public class ImportGameHandler implements ActionHandler<ImportGameAction, Import
 		
 		ImportGameResult result = new ImportGameResult();
 		String gameLink = action.getGameLink();
-		EntityManager em = emp.get();
+		
 		try {
 			Game game = parser.parse(gameLink);
-			em.persist(game);
+			importGame(game);
 			result.setSuccess(true);
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			em.close();
-		}
-		
+			result.setSuccess(false);
+		} 
 		return result;
 		
 	}
@@ -55,5 +57,101 @@ public class ImportGameHandler implements ActionHandler<ImportGameAction, Import
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	private void importGame(Game game) {
+		Game gameInDB = findGameByNameAndPlatform(game.getName(), game.getPlatform());
+		if(gameInDB != null) {
+			Price currentPrice = game.getPrices().iterator().next();
+			currentPrice.setGame(gameInDB);
+			PriceSource source = currentPrice.getSource();
+			Price latestPrice = getLatestGamePrice(gameInDB, source);
+			
+			if(latestPrice != null) {
+				if(!equals(latestPrice.getPrice(), currentPrice.getPrice())) {
+					saveNewPrice(currentPrice);
+				} else {
+					return;
+				}
+			} else {
+				saveNewPrice(currentPrice);
+			}
+		} else {
+			saveNewGame(game);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Game findGameByNameAndPlatform(String name, String platform) {
+		EntityManager em = emp.get();
+		
+		try {
+			Query query = 
+				em.createQuery("select from Game g where g.name = :name and g.platform = :platform");
+			query.setParameter("name", name);
+			query.setParameter("platform", platform);
+			List<Game> games = (List<Game>) query.getResultList();
+			if(games != null && games.size() == 1) {
+				return games.get(0);
+			} else if(games != null && games.size() > 1){
+				throw new RuntimeException("There are more than 1 games with " + name + "_" + platform);
+			} else {
+				return null;
+			}
+		} finally {
+			em.close();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Price getLatestGamePrice(Game game, PriceSource source) {
+		EntityManager em = emp.get();
+		
+		try {
+			
+			if(game != null) {
+				Query query = 
+					em.createQuery(
+							"select from Price p where p.game = :game and p.source = :source " +
+							"order by p.createDate DESC");
+				query.setParameter("game", game);
+				query.setParameter("source", source);
+				List<Price> prices = (List<Price>)query.getResultList();
+				if(prices != null && !prices.isEmpty()) {
+					return prices.get(0);
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
+		} finally {
+			em.close();
+		}
+	}
+	
+	private void saveNewPrice(Price price) {
+		EntityManager em = emp.get();
+		
+		try {
+			em.persist(price);
+		} finally {
+			em.close();
+		}
+	}
+	
+	private void saveNewGame(Game game) {
+		EntityManager em = emp.get();
+		
+		try {
+			em.persist(game);
+		} finally {
+			em.close();
+		}
+	}
+	
+	public static boolean equals(double a, double b){
+		double EPSILON = 0.00001;
+	    return a == b ? true : Math.abs(a - b) < EPSILON;
+	}
+ 
 }

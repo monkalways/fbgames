@@ -27,7 +27,7 @@ public class GameParserTest {
 	}
 	
 	@Test
-	public void testParse() {
+	public void testParseBestBuyCa() {
 		try {
 			String url = "http://www.bestbuy.ca/en-CA/product/nfl-head-coach-09-xbox-360/10110092.aspx";
 			Game game = gameParser.parse(url);
@@ -39,10 +39,25 @@ public class GameParserTest {
 		}
 		
 	}
+
+	@Test
+	public void testParseAmazonCa() {
+		try {
+			String url = "http://www.amazon.ca/gp/product/B0024FAZZY";
+			Game game = gameParser.parse(url);
+			assertNotNull("Game should not be null.", game);
+			assertEquals("Overlord 2", game.getName());
+			assertEquals("Xbox 360", game.getPlatform());
+			assertEquals("Teen", game.getRating());
+			
+		} catch(Exception ex) {
+			fail("Exception occurred: " + ex);
+		}
+		
+	}
 	
 	@Test
-
-	public void testParseGameLinks() {
+	public void testParseGameLinksBestBuyCa() {
 		try {
 			String url = "http://www.bestbuy.ca/catalog/category.aspx?lang=en-CA&category=23374&Page=1&PageSize=15";
 			List<String> links = gameParser.parseGameLinks(url);

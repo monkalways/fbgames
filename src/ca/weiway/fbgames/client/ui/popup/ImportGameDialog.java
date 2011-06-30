@@ -23,8 +23,8 @@ public class ImportGameDialog extends Dialog implements IImportGameDialog {
 
 	public ImportGameDialog() {
 		FormLayout layout = new FormLayout();
-		layout.setLabelWidth(90);
-		layout.setDefaultWidth(155);
+		layout.setLabelWidth(60);
+		layout.setDefaultWidth(300);
 		setLayout(layout);
 
 		setButtonAlign(HorizontalAlignment.LEFT);
@@ -34,7 +34,7 @@ public class ImportGameDialog extends Dialog implements IImportGameDialog {
 		setModal(true);
 		setBodyBorder(true);
 		setBodyStyle("padding: 8px;background: none");
-		setWidth(300);
+		setWidth(400);
 		setResizable(false);
 
 		KeyListener keyListener = new KeyListener() {

@@ -119,7 +119,7 @@ public class GameDetailWidget extends LayoutContainer {
 	    grid.getView().setAutoFill(true);
 	    
 	    cp.add(grid);
-		this.add(cp, new RowData(0.75, 0.85, margins));
+		this.add(cp, new RowData(0.74, 0.85, margins));
 	}
 	
 	public void provideStore(List<Price> prices) {

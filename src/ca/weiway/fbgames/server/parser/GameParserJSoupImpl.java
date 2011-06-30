@@ -24,8 +24,44 @@ public class GameParserJSoupImpl implements GameParser {
 			return null;
 		}
 		
+		if(url.contains("bestbuy.ca")) {
+			return parseBestBuyCaGame(url);
+		} else if(url.contains("amazon.ca")) {
+			return parseAmazonCaGame(url);
+		}
+		else {
+			return null;
+		}
+	}
+
+	Game parseAmazonCaGame(String url) throws IOException {
+		Game game = new Game();
 		Document doc = Jsoup.connect(url).get();
-		String title = doc.select("div[id=pdpoverview] h1 span").text();
+		
+		String name = doc.select("h1[class=parseasinTitle] span[id=btAsinTitle]").text();
+		game.setName(name);
+		
+		String platform = doc.select("div[class=bucket] div[class=content] ul li").first().text();
+		platform = platform.indexOf("Xbox") > 0 ? "Xbox 360" : "PlayStation 3";
+		game.setPlatform(platform);
+		
+		String rating = doc.select("div[class=bucket] div[class=content] ul li a").get(1).text();
+		game.setRating(rating);
+		
+		String releaseDate = doc.select("td[class=bucket] div[class=content] ul li").get(1).text();
+		
+		game.setCreateDate(new Date());
+		game.setImageLink(null);
+		game.setOnSale(false);
+		game.setRecentPriceDrop(false);
+		game.setUpdateDate(new Date());
+		
+		return game;
+	}
+
+	Game parseBestBuyCaGame(String url) throws IOException {
+		Document doc = Jsoup.connect(url).get();
+		String name = doc.select("div[id=pdpoverview] h1 span").text();
 		
 		Elements priceElements = doc.select("div[id=pdpoverview] div[class=content] span[class=price]");
 		Double price = 10000.;
@@ -45,8 +81,8 @@ public class GameParserJSoupImpl implements GameParser {
 		String imageLink = "http://www.bestbuy.ca" + doc.select("div[id=productdetail] img").attr("src");
 		
 		Game returnValue = new Game();
-		returnValue.setName(title.substring(0, title.indexOf("(")).trim());
-		returnValue.setPlatform(title.substring(title.indexOf("(") + 1, title.indexOf(")")).trim());
+		returnValue.setName(name.substring(0, name.indexOf("(")).trim());
+		returnValue.setPlatform(name.substring(name.indexOf("(") + 1, name.indexOf(")")).trim());
 		returnValue.setCreateDate(new Date());
 		returnValue.setImageLink(imageLink);
 		returnValue.setOnSale(false);
@@ -79,6 +115,14 @@ public class GameParserJSoupImpl implements GameParser {
 			return null;
 		}
 		
+		if(url.contains("bestbuy.ca")) {
+			return parseBestBuyGameCaLinks(url);
+		} else {
+			return null;
+		}
+	}
+
+	List<String> parseBestBuyGameCaLinks(String url) throws IOException {
 		List<String> gameLinks = new ArrayList<String>();
 		
 		Document doc = Jsoup.connect(url).get();

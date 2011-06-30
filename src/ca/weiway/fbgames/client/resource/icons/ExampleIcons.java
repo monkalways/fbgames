@@ -15,6 +15,12 @@ public interface ExampleIcons extends ImageBundle {
   @Resource("table.png")
   AbstractImagePrototype table();
 
+  @Resource("my_add.gif")
+  AbstractImagePrototype my_add();
+
+  @Resource("edit.gif")
+  AbstractImagePrototype edit();
+  
   @Resource("add16.gif")
   AbstractImagePrototype add16();
 
@@ -47,6 +53,9 @@ public interface ExampleIcons extends ImageBundle {
 
   @Resource("delete.gif")
   AbstractImagePrototype delete();
+  
+  @Resource("delete2.gif")
+  AbstractImagePrototype delete2();
 
   @Resource("calendar.gif")
   AbstractImagePrototype calendar();

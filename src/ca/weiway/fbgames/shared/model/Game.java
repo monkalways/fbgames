@@ -39,6 +39,8 @@ public class Game implements Serializable {
 	
 	private String platform;
 	
+	private String rating;
+	
 	@GwtTransient
 	@OneToMany(mappedBy="game", cascade=CascadeType.ALL)
 	private Set<Price> prices = new HashSet<Price>();
@@ -122,6 +124,14 @@ public class Game implements Serializable {
 
 	public void setPrices(Set<Price> prices) {
 		this.prices = prices;
+	}
+
+	public String getRating() {
+		return rating;
+	}
+
+	public void setRating(String rating) {
+		this.rating = rating;
 	}
 
 
