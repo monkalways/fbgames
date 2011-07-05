@@ -53,33 +53,13 @@ public class HomeActivity extends AbstractActivity implements
 	@Override
 	public void start(AcceptsOneWidget panel, EventBus eventBus) {
 		display.setPresenter(this);
-		display.setLoading(true);
-		loadGames();
+		display.refreshGrid();
 		panel.setWidget(display.asWidget());
 	}
 
 	@Override
 	public void goTo(Place place) {
 		placeController.goTo(place);
-	}
-	
-	private void loadGames() {
-		dispatchAsync.execute(new GetAllGamesAction(), new AsyncCallback<GetAllGamesResult>() {
-			@Override
-			public void onFailure(final Throwable caught) {
-			}
-
-			@Override
-			public void onSuccess(final GetAllGamesResult result) {
-				games = result.getGames();
-				gameStore.removeAll();
-				for (Game game : games) {
-					BeanModelFactory beanModelFactory = BeanModelLookup.get()
-							.getFactory(game.getClass());
-					gameStore.add(beanModelFactory.createModel(game));
-				}
-			}
-		});
 	}
 
 	@Override
@@ -95,7 +75,7 @@ public class HomeActivity extends AbstractActivity implements
 
 			@Override
 			public void onSuccess(final DeleteGamesResult result) {
-				loadGames();
+				display.refreshGrid();
 			}
 		});
 	}
@@ -115,7 +95,7 @@ public class HomeActivity extends AbstractActivity implements
 
 			@Override
 			public void onSuccess(final ImportGameResult result) {
-				loadGames();
+				display.refreshGrid();
 				importGameDialog.hide();
 			}
 		});

@@ -19,6 +19,19 @@
 		<listener-class>ca.weiway.fbgames.server.guice.GuiceServletConfig</listener-class>
 	</listener>
 
+	<!-- Servlets -->
+	<!--
+	<servlet>
+		<servlet-name>gameServlet</servlet-name>
+		<servlet-class>ca.weiway.fbgames.server.service.GameServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>gameServlet</servlet-name>
+		<url-pattern>/fbgames/game</url-pattern>
+	</servlet-mapping>
+	 -->
+
 	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>Fbgames.html</welcome-file>

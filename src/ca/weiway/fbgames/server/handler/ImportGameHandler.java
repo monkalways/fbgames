@@ -1,6 +1,7 @@
 package ca.weiway.fbgames.server.handler;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -62,18 +63,17 @@ public class ImportGameHandler implements ActionHandler<ImportGameAction, Import
 		Game gameInDB = findGameByNameAndPlatform(game.getName(), game.getPlatform());
 		if(gameInDB != null) {
 			Price currentPrice = game.getPrices().iterator().next();
-			currentPrice.setGame(gameInDB);
 			PriceSource source = currentPrice.getSource();
 			Price latestPrice = getLatestGamePrice(gameInDB, source);
 			
 			if(latestPrice != null) {
 				if(!equals(latestPrice.getPrice(), currentPrice.getPrice())) {
-					saveNewPrice(currentPrice);
+					saveNewPrice(currentPrice, gameInDB);
 				} else {
 					return;
 				}
 			} else {
-				saveNewPrice(currentPrice);
+				saveNewPrice(currentPrice, gameInDB);
 			}
 		} else {
 			saveNewGame(game);
@@ -129,11 +129,14 @@ public class ImportGameHandler implements ActionHandler<ImportGameAction, Import
 		}
 	}
 	
-	private void saveNewPrice(Price price) {
+	private void saveNewPrice(Price price, Game game) {
 		EntityManager em = emp.get();
 		
 		try {
-			em.persist(price);
+			game.getPrices().add(price);
+			price.setGame(game);
+			game.setUpdateDate(new Date());
+			em.persist(game);
 		} finally {
 			em.close();
 		}

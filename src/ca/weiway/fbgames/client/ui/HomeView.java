@@ -19,10 +19,8 @@ public interface HomeView extends IsWidget {
 		void showImportGameDialog();
 	}
 
-	void setGames(List<Game> games);
-
 	public Long getSelectedId();
 
-	void setLoading(boolean isloading);
+	void refreshGrid();
 	
 }

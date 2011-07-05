@@ -19,16 +19,24 @@ import com.extjs.gxt.ui.client.data.BeanModelFactory;
 import com.extjs.gxt.ui.client.data.BeanModelLookup;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.util.Margins;
+import com.extjs.gxt.ui.client.util.Padding;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.Html;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
+import com.extjs.gxt.ui.client.widget.layout.BoxLayout.BoxLayoutPack;
+import com.extjs.gxt.ui.client.widget.layout.CenterLayout;
 import com.extjs.gxt.ui.client.widget.layout.FillLayout;
 import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
+import com.extjs.gxt.ui.client.widget.layout.HBoxLayout;
+import com.extjs.gxt.ui.client.widget.layout.HBoxLayout.HBoxLayoutAlign;
+import com.extjs.gxt.ui.client.widget.layout.HBoxLayoutData;
 import com.extjs.gxt.ui.client.widget.layout.RowData;
 import com.extjs.gxt.ui.client.widget.layout.RowLayout;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Image;
 
@@ -40,16 +48,32 @@ public class GameDetailWidget extends LayoutContainer {
 	
 	private Margins margins = new Margins(5);
 	
+	private Game game;
+	
 	public GameDetailWidget(Game game) {
+		this.game = game;
+	}
+	
+	@Override
+	protected void onRender(Element parent, int index) {
+		super.onRender(parent, index);
 		
-		this.setLayout(new RowLayout(Orientation.HORIZONTAL));  
-//		this.getHeader().setIconAltText("Grid Icon");  
-		this.setSize(775, 200);
+		this.setSize(760, 200);
+		HBoxLayout layout = new HBoxLayout();  
+        layout.setPadding(new Padding(5));  
+        layout.setHBoxLayoutAlign(HBoxLayoutAlign.MIDDLE);
+        layout.setPack(BoxLayoutPack.CENTER); 
+		this.setLayout(layout);  
 		
-		addGameImage(game.getImageLink());
-		addGrid();
+		HBoxLayoutData layoutData = new HBoxLayoutData(new Margins(-80, 120, 0, 0));
+		LayoutContainer viewPort = new LayoutContainer();
+		viewPort.setWidth(600);
+		viewPort.setHeight(200);
+		viewPort.setLayout(new CenterLayout());
 		
-//		this.add(cp);
+		viewPort.add(new Html("<div class=\"loading\"><div class=\"loading-indicator\"><img src=\"resources/images/default/shared/large-loading.gif\" width=\"32\" height=\"32\" />" + 
+				getSubtractedGameName(game.getName()) + "<br /> <span class=\"loading-msg\">Loading...</span></div></div>"));
+		this.add(viewPort, layoutData);
 		
 		DispatchAsync dispatchAsync = new StandardDispatchAsync(new DefaultExceptionHandler());
 		dispatchAsync.execute(new GetGamePricesAction(game.getId()), new AsyncCallback<GetGamePricesResult>() {
@@ -62,10 +86,30 @@ public class GameDetailWidget extends LayoutContainer {
 				List<Price> prices = result.getPrices();
 				if(prices != null && !prices.isEmpty()) {
 					provideStore(prices);
+					GameDetailWidget.this.removeAll();
+					GameDetailWidget.this.setLayout(new RowLayout(Orientation.HORIZONTAL));  
+					GameDetailWidget.this.setSize(760, 200);
+					addGameImage(game.getImageLink());
+					addGrid();
+					GameDetailWidget.this.unmask();
+					GameDetailWidget.this.layout();
 				}
 			}
 		});
-		
+	}
+	
+	private String getSubtractedGameName(String gameName) {
+		if(gameName.length() > 15) {
+			String gameName15 = gameName.substring(0, 20);
+			return gameName15.substring(0, gameName15.lastIndexOf(" ")) + " ...";
+		}
+		StringBuffer buffer = new StringBuffer(gameName);
+		int length = gameName.length();
+		while(length < 10) {
+			buffer.append("&nbsp;");
+			length++;
+		}
+		return buffer.toString();
 	}
 	
 	private void addGameImage(String imageHref) {
@@ -74,7 +118,7 @@ public class GameDetailWidget extends LayoutContainer {
 		image.setHeight("185px");
 		image.setWidth("185px");
 		container.add(image);
-		this.add(container, new RowData(0.25, 0.85, margins));
+		GameDetailWidget.this.add(container, new RowData(0.25, 0.85, margins));
 	}
 	
 	private void addGrid() {
@@ -119,7 +163,7 @@ public class GameDetailWidget extends LayoutContainer {
 	    grid.getView().setAutoFill(true);
 	    
 	    cp.add(grid);
-		this.add(cp, new RowData(0.74, 0.85, margins));
+	    GameDetailWidget.this.add(cp, new RowData(0.75, 0.85, margins));
 	}
 	
 	public void provideStore(List<Price> prices) {

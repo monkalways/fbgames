@@ -1,5 +1,6 @@
 package ca.weiway.fbgames.client.ui;
 
+import com.extjs.gxt.ui.client.GXT;
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.GWT;
@@ -36,6 +37,8 @@ public class MainViewImpl extends Composite implements MainView {
         
         ActivityManager manager = new ActivityManager(mapper, eventBus);
 		manager.setDisplay(contentsPanel);
+		
+		GXT.hideLoadingPanel("loading");
 	}
 	
 	private HeaderView header;

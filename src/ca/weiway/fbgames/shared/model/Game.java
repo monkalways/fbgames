@@ -10,11 +10,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import com.google.gwt.user.client.rpc.GwtTransient;
 
 @Entity
+@NamedQuery(
+	    name="Game.getTotalOfGame",
+	    query="select count(game.id) from Game game"
+)
 public class Game implements Serializable {
 	
 	private static final long serialVersionUID = -4415279469780082174L;

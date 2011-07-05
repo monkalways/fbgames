@@ -80,6 +80,8 @@ public class GameParserJSoupImpl implements GameParser {
 		
 		String imageLink = "http://www.bestbuy.ca" + doc.select("div[id=productdetail] img").attr("src");
 		
+		String rating = doc.select("div[class=ProductDetailsControlMiddleRow] div[class=std-ratingsystem] p span").first().text();
+		
 		Game returnValue = new Game();
 		returnValue.setName(name.substring(0, name.indexOf("(")).trim());
 		returnValue.setPlatform(name.substring(name.indexOf("(") + 1, name.indexOf(")")).trim());
@@ -88,6 +90,7 @@ public class GameParserJSoupImpl implements GameParser {
 		returnValue.setOnSale(false);
 		returnValue.setRecentPriceDrop(false);
 		returnValue.setUpdateDate(new Date());
+		returnValue.setRating(rating.substring(rating.indexOf(":") + 1).trim());
 		if(releaseDateStr != null && releaseDateStr.length() != 0) {
 			DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 			try {

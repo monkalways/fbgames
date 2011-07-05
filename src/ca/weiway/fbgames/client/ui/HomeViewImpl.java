@@ -4,12 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.weiway.fbgames.client.resource.icons.ExampleIcons;
+import ca.weiway.fbgames.client.service.GameService;
+import ca.weiway.fbgames.client.service.GameServiceAsync;
 import ca.weiway.fbgames.client.ui.widget.GameDetailWidget;
 import ca.weiway.fbgames.shared.model.Game;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.data.BasePagingLoader;
 import com.extjs.gxt.ui.client.data.BeanModel;
+import com.extjs.gxt.ui.client.data.BeanModelReader;
+import com.extjs.gxt.ui.client.data.PagingLoadConfig;
+import com.extjs.gxt.ui.client.data.PagingLoadResult;
+import com.extjs.gxt.ui.client.data.RpcProxy;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.GridEvent;
+import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.util.Margins;
@@ -31,18 +41,22 @@ import com.extjs.gxt.ui.client.widget.layout.BoxLayout.BoxLayoutPack;
 import com.extjs.gxt.ui.client.widget.layout.HBoxLayout;
 import com.extjs.gxt.ui.client.widget.layout.HBoxLayout.HBoxLayoutAlign;
 import com.extjs.gxt.ui.client.widget.layout.HBoxLayoutData;
+import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.jhickman.web.gwt.gxtuibinder.client.GxtEvent;
 import com.jhickman.web.gwt.gxtuibinder.client.GxtUiHandler;
 
 public class HomeViewImpl extends Composite implements HomeView {
+
+	private static final int GAME_GRID_RECORD_PER_PAGE = 10;
 
 	private ListStore<BeanModel> gameStore;
 
@@ -53,6 +67,8 @@ public class HomeViewImpl extends Composite implements HomeView {
 	}
 
 	public static final ExampleIcons INSTANCE = GWT.create(ExampleIcons.class);
+
+	private final GameServiceAsync gameService = GWT.create(GameService.class);
 
 	@Inject
 	public HomeViewImpl(ListStore<BeanModel> gameStore) {
@@ -72,6 +88,8 @@ public class HomeViewImpl extends Composite implements HomeView {
 	private Grid<BeanModel> grid;
 
 	private Presenter presenter;
+	
+	private BasePagingLoader<PagingLoadResult<BeanModel>> loader;
 
 	private GridCellRenderer<BeanModel> platformRender = new GridCellRenderer<BeanModel>() {
 		public String render(BeanModel model, String property,
@@ -92,18 +110,20 @@ public class HomeViewImpl extends Composite implements HomeView {
 				ColumnData config, final int rowIndex, final int colIndex,
 				ListStore<BeanModel> store, Grid<BeanModel> grid) {
 
-			LayoutContainer c = new LayoutContainer();  
-	        HBoxLayout layout = new HBoxLayout();  
-	        layout.setPadding(new Padding(5));  
-	        layout.setHBoxLayoutAlign(HBoxLayoutAlign.MIDDLE);  
-	        layout.setPack(BoxLayoutPack.CENTER);  
-	        c.setLayout(layout);  
-	  
-	        HBoxLayoutData layoutData = new HBoxLayoutData(new Margins(0, 5, 0, 0));
+			LayoutContainer c = new LayoutContainer();
+			HBoxLayout layout = new HBoxLayout();
+			layout.setPadding(new Padding(5));
+			layout.setHBoxLayoutAlign(HBoxLayoutAlign.MIDDLE);
+			layout.setPack(BoxLayoutPack.CENTER);
+			c.setLayout(layout);
+
+			HBoxLayoutData layoutData = new HBoxLayoutData(new Margins(0, 5, 0,
+					0));
 
 			Button btnDelete = new Button();
 			btnDelete.setIcon(INSTANCE.delete2());
-			btnDelete.addSelectionListener(new SelectionListener<ButtonEvent>() {
+			btnDelete
+					.addSelectionListener(new SelectionListener<ButtonEvent>() {
 						@Override
 						public void componentSelected(ButtonEvent ce) {
 							Game game = (Game) model.getBean();
@@ -119,15 +139,14 @@ public class HomeViewImpl extends Composite implements HomeView {
 			Button btnEdit = new Button();
 			btnEdit.setIcon(INSTANCE.edit());
 			btnEdit.addSelectionListener(new SelectionListener<ButtonEvent>() {
-						@Override
-						public void componentSelected(ButtonEvent ce) {
-							Game game = (Game) model.getBean();
-//							presenter.deleteGame(game.getId());
-							 Info.display("Edit " + game.getName(),
-							 "<ul><li>" + game.getPlatform()
-							 + "</li></ul>");
-						}
-					});
+				@Override
+				public void componentSelected(ButtonEvent ce) {
+					Game game = (Game) model.getBean();
+					// presenter.deleteGame(game.getId());
+					Info.display("Edit " + game.getName(),
+							"<ul><li>" + game.getPlatform() + "</li></ul>");
+				}
+			});
 
 			btnEdit.setToolTip("Edit game");
 
@@ -159,12 +178,6 @@ public class HomeViewImpl extends Composite implements HomeView {
 	}
 
 	@Override
-	public void setGames(List<Game> games) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public Long getSelectedId() {
 
 		BeanModel model = grid.getSelectionModel().getSelectedItem();
@@ -172,13 +185,26 @@ public class HomeViewImpl extends Composite implements HomeView {
 		return ((Game) model.getBean()).getId();
 	}
 
-	@Override
-	public void setLoading(boolean isloading) {
-		// TODO Auto-generated method stub
-
-	}
-
 	private void initGrid() {
+
+		RpcProxy<PagingLoadResult<Game>> proxy = new RpcProxy<PagingLoadResult<Game>>() {
+			@Override
+			protected void load(Object loadConfig,
+					AsyncCallback<PagingLoadResult<Game>> callback) {
+				gameService.loadGames((PagingLoadConfig) loadConfig, callback);
+			}
+		};
+
+		// loader
+		loader = new BasePagingLoader<PagingLoadResult<BeanModel>>(
+				proxy, new BeanModelReader());
+		loader.setRemoteSort(true);
+
+		ListStore<BeanModel> store = new ListStore<BeanModel>(loader);
+
+		final PagingToolBar toolBar = new PagingToolBar(GAME_GRID_RECORD_PER_PAGE);
+		toolBar.bind(loader);
+
 		List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
 
 		// final CheckBoxSelectionModel<BeanModel> selectionModel = new
@@ -216,10 +242,16 @@ public class HomeViewImpl extends Composite implements HomeView {
 		column.setRenderer(platformRender);
 		column.setMenuDisabled(true);
 		configs.add(column);
-		
+
 		column = new ColumnConfig();
 		column.setId("name");
 		column.setHeader("Name");
+		column.setWidth(200);
+		configs.add(column);
+
+		column = new ColumnConfig();
+		column.setId("rating");
+		column.setHeader("ESRB Rating");
 		column.setWidth(200);
 		configs.add(column);
 
@@ -242,14 +274,28 @@ public class HomeViewImpl extends Composite implements HomeView {
 
 		ColumnModel cm = new ColumnModel(configs);
 
-		grid = new Grid<BeanModel>(gameStore, cm);
+		grid = new Grid<BeanModel>(store, cm);
 		grid.setAutoExpandColumn("name");
 		grid.addPlugin(expander);
 		grid.setColumnReordering(true);
 		grid.setStripeRows(true);
 		grid.getView().setAutoFill(true);
 		grid.setWidth("99%");
+		grid.setLoadMask(true);
+
+//		grid.addListener(Events.Attach, new Listener<GridEvent<BeanModel>>() {
+//			public void handleEvent(GridEvent<BeanModel> be) {
+//				loader.load(0, GAME_GRID_RECORD_PER_PAGE);
+//			}
+//		});
+
 		contentPanel.add(grid);
+		contentPanel.setBottomComponent(toolBar);
+	}
+
+	@Override
+	public void refreshGrid() {
+		loader.load(0, GAME_GRID_RECORD_PER_PAGE);
 	}
 
 }
