@@ -18,8 +18,20 @@ public interface ExampleIcons extends ImageBundle {
   @Resource("my_add.gif")
   AbstractImagePrototype my_add();
 
+  @Resource("loading.gif")
+  AbstractImagePrototype loading();
+
   @Resource("edit.gif")
   AbstractImagePrototype edit();
+  
+  @Resource("imports.png")
+  AbstractImagePrototype imports();
+
+  @Resource("toImport.png")
+  AbstractImagePrototype toImport();
+
+  @Resource("imported.png")
+  AbstractImagePrototype imported();
   
   @Resource("add16.gif")
   AbstractImagePrototype add16();

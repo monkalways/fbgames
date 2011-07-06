@@ -68,3 +68,12 @@ h1 {
 .loading-msg {
 	font: normal 10px arial, tahoma, sans-serif;
 }
+
+.parseGameHpStyle {
+	padding: 2px;
+	border-bottom: 1px solid #C0C0C0;
+}
+
+.parseGameHpStyleLast {
+	padding: 2px;
+}

@@ -14,6 +14,6 @@ public class DispatchServletModule extends ServletModule {
 		serve("/fbgames/dispatch").with(GuiceStandardDispatchServlet.class);
 		serve("/fbgames/game").with(GuiceRemoteServiceServlet.class);
 		
-		bind(GameService.class).to(GameServiceImpl.class);
+		
 	}
 }

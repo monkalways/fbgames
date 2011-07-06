@@ -1,9 +1,5 @@
 package ca.weiway.fbgames.client.ui;
 
-import java.util.List;
-
-import ca.weiway.fbgames.shared.model.Game;
-
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.IsWidget;
 
@@ -17,6 +13,8 @@ public interface HomeView extends IsWidget {
 		void deleteGame(Long gameId);
 
 		void showImportGameDialog();
+
+		void showBatchImportDialog();
 	}
 
 	public Long getSelectedId();

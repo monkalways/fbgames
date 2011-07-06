@@ -26,6 +26,8 @@
 					<toolbar:ToolBar>
 						<button:Button ui:field="btnImport" scale="SMALL" iconAlign="LEFT" 
 									   icon="{icons.my_add}" text="Import Game" />
+						<button:Button ui:field="btnImports" scale="SMALL" iconAlign="LEFT" 
+									   icon="{icons.imports}" text="Import Games" />
 					</toolbar:ToolBar>
 				</gxt:topcomponent>
 				<!-- 

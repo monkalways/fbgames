@@ -6,6 +6,8 @@ import ca.weiway.fbgames.client.ui.HeaderView;
 import ca.weiway.fbgames.client.ui.HeaderViewImpl;
 import ca.weiway.fbgames.client.ui.HomeView;
 import ca.weiway.fbgames.client.ui.HomeViewImpl;
+import ca.weiway.fbgames.client.ui.popup.BatchImportDialog;
+import ca.weiway.fbgames.client.ui.popup.IBatchImportDialog;
 import ca.weiway.fbgames.client.ui.popup.IImportGameDialog;
 import ca.weiway.fbgames.client.ui.popup.ImportGameDialog;
 
@@ -20,6 +22,7 @@ public class ViewModule extends AbstractGinModule {
 		bind(HomeView.class).to(HomeViewImpl.class).in(Singleton.class);
 		bind(EditGameView.class).to(EditGameViewImpl.class).in(Singleton.class);
 		bind(IImportGameDialog.class).to(ImportGameDialog.class).in(Singleton.class);
+		bind(IBatchImportDialog.class).to(BatchImportDialog.class).in(Singleton.class);
 	}
-
+	
 }

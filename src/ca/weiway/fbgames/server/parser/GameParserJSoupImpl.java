@@ -3,9 +3,9 @@ package ca.weiway.fbgames.server.parser;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -113,7 +113,7 @@ public class GameParserJSoupImpl implements GameParser {
 	}
 
 	@Override
-	public List<String> parseGameLinks(String url) throws IOException {
+	public Map<String, String> parseGameLinks(String url) throws IOException {
 		if(url == null) {
 			return null;
 		}
@@ -125,8 +125,8 @@ public class GameParserJSoupImpl implements GameParser {
 		}
 	}
 
-	List<String> parseBestBuyGameCaLinks(String url) throws IOException {
-		List<String> gameLinks = new ArrayList<String>();
+	Map<String, String> parseBestBuyGameCaLinks(String url) throws IOException {
+		Map<String, String> gameLinks = new HashMap<String, String>();
 		
 		Document doc = Jsoup.connect(url).get();
 		Elements links = doc.select("table[class=skublocklist] td[class=infos] h4 a");
@@ -134,11 +134,13 @@ public class GameParserJSoupImpl implements GameParser {
 		for (Element link : links) {
 //			print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(link.text(), 35));
 			String href = link.attr("abs:href");
-			gameLinks.add(href);
+			String name = link.text();
+			if(!name.contains("-")) {
+				gameLinks.put(name, href);
+			}
 		}
-
 		
 		return gameLinks;
 	}
-
+	
 }

@@ -16,12 +16,14 @@ import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 public class ImportGameDialog extends Dialog implements IImportGameDialog {
 
 	private TextField<String> gameLink;
-	private Button btnReset;
+	private Button btnCancel;
 	private Button btnImport;
 	private Status status;
 	private Presenter presenter;
 
 	public ImportGameDialog() {
+		this.setModal(true);
+		
 		FormLayout layout = new FormLayout();
 		layout.setLabelWidth(60);
 		layout.setDefaultWidth(300);
@@ -55,7 +57,6 @@ public class ImportGameDialog extends Dialog implements IImportGameDialog {
 
 	@Override
 	protected void createButtons() {
-		super.createButtons();
 
 		super.createButtons();
 		status = new Status();
@@ -66,12 +67,10 @@ public class ImportGameDialog extends Dialog implements IImportGameDialog {
 
 		getButtonBar().add(new FillToolItem());
 
-		btnReset = new Button("Reset");
-		btnReset.addSelectionListener(new SelectionListener<ButtonEvent>() {
+		btnCancel = new Button("Cancel");
+		btnCancel.addSelectionListener(new SelectionListener<ButtonEvent>() {
 			public void componentSelected(ButtonEvent ce) {
-				gameLink.reset();
-				validate();
-				gameLink.focus();
+				ImportGameDialog.this.hide();
 			}
 
 		});
@@ -84,7 +83,7 @@ public class ImportGameDialog extends Dialog implements IImportGameDialog {
 			}
 		});
 
-		addButton(btnReset);
+		addButton(btnCancel);
 		addButton(btnImport);
 	}
 

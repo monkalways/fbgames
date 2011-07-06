@@ -38,7 +38,7 @@ public class GuiceRemoteServiceServlet extends RemoteServiceServlet {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private RemoteService getServiceInstance(Class serviceClass) {
 		return (RemoteService) injector.getInstance(serviceClass);
 	}

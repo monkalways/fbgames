@@ -7,6 +7,7 @@ import net.customware.gwt.dispatch.client.DefaultExceptionHandler;
 import net.customware.gwt.dispatch.client.DispatchAsync;
 import net.customware.gwt.dispatch.client.standard.StandardDispatchAsync;
 import ca.weiway.fbgames.client.resource.Resources;
+import ca.weiway.fbgames.client.util.StringUtils;
 import ca.weiway.fbgames.shared.action.GetGamePricesAction;
 import ca.weiway.fbgames.shared.action.GetGamePricesResult;
 import ca.weiway.fbgames.shared.model.Game;
@@ -72,7 +73,7 @@ public class GameDetailWidget extends LayoutContainer {
 		viewPort.setLayout(new CenterLayout());
 		
 		viewPort.add(new Html("<div class=\"loading\"><div class=\"loading-indicator\"><img src=\"resources/images/default/shared/large-loading.gif\" width=\"32\" height=\"32\" />" + 
-				getSubtractedGameName(game.getName()) + "<br /> <span class=\"loading-msg\">Loading...</span></div></div>"));
+				StringUtils.getSubtractedGameName(game.getName(), 20) + "<br /> <span class=\"loading-msg\">Loading...</span></div></div>"));
 		this.add(viewPort, layoutData);
 		
 		DispatchAsync dispatchAsync = new StandardDispatchAsync(new DefaultExceptionHandler());
@@ -96,20 +97,6 @@ public class GameDetailWidget extends LayoutContainer {
 				}
 			}
 		});
-	}
-	
-	private String getSubtractedGameName(String gameName) {
-		if(gameName.length() > 15) {
-			String gameName15 = gameName.substring(0, 20);
-			return gameName15.substring(0, gameName15.lastIndexOf(" ")) + " ...";
-		}
-		StringBuffer buffer = new StringBuffer(gameName);
-		int length = gameName.length();
-		while(length < 10) {
-			buffer.append("&nbsp;");
-			length++;
-		}
-		return buffer.toString();
 	}
 	
 	private void addGameImage(String imageHref) {

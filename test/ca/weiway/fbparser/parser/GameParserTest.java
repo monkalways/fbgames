@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -60,9 +61,9 @@ public class GameParserTest {
 	public void testParseGameLinksBestBuyCa() {
 		try {
 			String url = "http://www.bestbuy.ca/catalog/category.aspx?lang=en-CA&category=23374&Page=1&PageSize=15";
-			List<String> links = gameParser.parseGameLinks(url);
+			Map<String, String> links = gameParser.parseGameLinks(url);
 			List<Game> games = new ArrayList<Game>();
-			for(String gameLink : links) {
+			for(String gameLink : links.values()) {
 				Game game = gameParser.parse(gameLink);
 				games.add(game);
 				System.out.println(game.getName());

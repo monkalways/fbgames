@@ -6,8 +6,6 @@ import net.customware.gwt.dispatch.client.standard.StandardDispatchAsync;
 import ca.weiway.fbgames.client.ui.MainView;
 import ca.weiway.fbgames.client.ui.MainViewImpl;
 
-import com.extjs.gxt.ui.client.data.BeanModel;
-import com.extjs.gxt.ui.client.store.ListStore;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -28,12 +26,6 @@ public class AppModule extends AbstractGinModule {
 	@Provides
 	public DispatchAsync provideDispatchAsync() {
 		return new StandardDispatchAsync(new DefaultExceptionHandler());
-	}
-	
-	@Singleton
-	@Provides
-	public ListStore<BeanModel> provideGameStore() {
-		return new ListStore<BeanModel>();
 	}
 
 }

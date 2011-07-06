@@ -17,9 +17,6 @@ import com.extjs.gxt.ui.client.data.PagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.data.RpcProxy;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
-import com.extjs.gxt.ui.client.event.Events;
-import com.extjs.gxt.ui.client.event.GridEvent;
-import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.util.Margins;
@@ -50,15 +47,12 @@ import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.Inject;
 import com.jhickman.web.gwt.gxtuibinder.client.GxtEvent;
 import com.jhickman.web.gwt.gxtuibinder.client.GxtUiHandler;
 
 public class HomeViewImpl extends Composite implements HomeView {
 
 	private static final int GAME_GRID_RECORD_PER_PAGE = 10;
-
-	private ListStore<BeanModel> gameStore;
 
 	private static HomeViewImplUiBinder uiBinder = GWT
 			.create(HomeViewImplUiBinder.class);
@@ -70,18 +64,17 @@ public class HomeViewImpl extends Composite implements HomeView {
 
 	private final GameServiceAsync gameService = GWT.create(GameService.class);
 
-	@Inject
-	public HomeViewImpl(ListStore<BeanModel> gameStore) {
-		this.gameStore = gameStore;
-
+	public HomeViewImpl() {
 		initComponent(uiBinder.createAndBindUi(this));
-
 		initGrid();
 	}
 
 	@UiField
 	Button btnImport;
 
+	@UiField
+	Button btnImports;
+	
 	@UiField
 	ContentPanel contentPanel;
 
@@ -158,11 +151,6 @@ public class HomeViewImpl extends Composite implements HomeView {
 	};
 
 	@UiFactory
-	public ListStore<BeanModel> provideStore() {
-		return gameStore;
-	}
-
-	@UiFactory
 	public DateTimeFormat provideDateFormat() {
 		return DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT);
 	}
@@ -170,6 +158,11 @@ public class HomeViewImpl extends Composite implements HomeView {
 	@GxtUiHandler(uiField = "btnImport", eventType = GxtEvent.Select)
 	public void onImportButtonClicked(ButtonEvent event) {
 		presenter.showImportGameDialog();
+	}
+	
+	@GxtUiHandler(uiField = "btnImports", eventType = GxtEvent.Select)
+	public void onImportsButtonClicked(ButtonEvent event) {
+		presenter.showBatchImportDialog();
 	}
 
 	@Override
@@ -238,7 +231,7 @@ public class HomeViewImpl extends Composite implements HomeView {
 		ColumnConfig column = new ColumnConfig();
 		column.setId("platform");
 		column.setHeader("");
-		column.setWidth(15);
+		column.setWidth(20);
 		column.setRenderer(platformRender);
 		column.setMenuDisabled(true);
 		configs.add(column);
@@ -252,7 +245,7 @@ public class HomeViewImpl extends Composite implements HomeView {
 		column = new ColumnConfig();
 		column.setId("rating");
 		column.setHeader("ESRB Rating");
-		column.setWidth(200);
+		column.setWidth(50);
 		configs.add(column);
 
 		column = new ColumnConfig();
