@@ -16,3 +16,4 @@ Updates:
 
 1. Added batch deletes;
 2. Added remote filter to the game table;
+3. Added jQuery's fancy box plug-in to add light box effect to game images;
