@@ -7,16 +7,22 @@ import ca.weiway.fbgames.client.resource.icons.ExampleIcons;
 import ca.weiway.fbgames.client.service.GameService;
 import ca.weiway.fbgames.client.service.GameServiceAsync;
 import ca.weiway.fbgames.client.ui.widget.GameDetailWidget;
+import ca.weiway.fbgames.client.util.StringUtils;
 import ca.weiway.fbgames.shared.model.Game;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.data.BaseFilterPagingLoadConfig;
+import com.extjs.gxt.ui.client.data.BasePagingLoadConfig;
 import com.extjs.gxt.ui.client.data.BasePagingLoader;
 import com.extjs.gxt.ui.client.data.BeanModel;
 import com.extjs.gxt.ui.client.data.BeanModelReader;
-import com.extjs.gxt.ui.client.data.PagingLoadConfig;
+import com.extjs.gxt.ui.client.data.FilterPagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.extjs.gxt.ui.client.data.RpcProxy;
+import com.extjs.gxt.ui.client.event.BaseEvent;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.util.Margins;
@@ -34,6 +40,8 @@ import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
 import com.extjs.gxt.ui.client.widget.grid.WidgetExpander;
 import com.extjs.gxt.ui.client.widget.grid.WidgetRowRenderer;
+import com.extjs.gxt.ui.client.widget.grid.filters.GridFilters;
+import com.extjs.gxt.ui.client.widget.grid.filters.StringFilter;
 import com.extjs.gxt.ui.client.widget.layout.BoxLayout.BoxLayoutPack;
 import com.extjs.gxt.ui.client.widget.layout.HBoxLayout;
 import com.extjs.gxt.ui.client.widget.layout.HBoxLayout.HBoxLayoutAlign;
@@ -74,26 +82,44 @@ public class HomeViewImpl extends Composite implements HomeView {
 
 	@UiField
 	Button btnImports;
-	
+
 	@UiField
 	ContentPanel contentPanel;
 
 	private Grid<BeanModel> grid;
 
 	private Presenter presenter;
-	
+
 	private BasePagingLoader<PagingLoadResult<BeanModel>> loader;
 
-	private GridCellRenderer<BeanModel> platformRender = new GridCellRenderer<BeanModel>() {
+	// private GridCellRenderer<BeanModel> platformRender = new
+	// GridCellRenderer<BeanModel>() {
+	// public String render(BeanModel model, String property,
+	// ColumnData config, int rowIndex, int colIndex,
+	// ListStore<BeanModel> store, Grid<BeanModel> grid) {
+	// String platform = (String) model.get(property);
+	// if ("XBOX 360".equals(platform.toUpperCase())) {
+	// return
+	// "<img src='http://spiffy360.com/images/icons/xbox360.png' height='20px' width='20px' alt='XBOX 360'></span>";
+	// } else {
+	// return
+	// "<img src='http://t2.gstatic.com/images?q=tbn:ANd9GcTa8LNtHhdoghuWRvefTVEKQskgt2OsYRSBYcIwWWvlkt_g2VUw&t=1' height='20px' width='20px' alt='PS3'></span>";
+	// }
+	// }
+	// };
+
+	private GridCellRenderer<BeanModel> imageRender = new GridCellRenderer<BeanModel>() {
 		public String render(BeanModel model, String property,
 				ColumnData config, int rowIndex, int colIndex,
 				ListStore<BeanModel> store, Grid<BeanModel> grid) {
-			String platform = (String) model.get(property);
-			if ("XBOX 360".equals(platform.toUpperCase())) {
-				return "<img src='http://spiffy360.com/images/icons/xbox360.png' height='20px' width='20px' alt='XBOX 360'></span>";
-			} else {
-				return "<img src='http://t2.gstatic.com/images?q=tbn:ANd9GcTa8LNtHhdoghuWRvefTVEKQskgt2OsYRSBYcIwWWvlkt_g2VUw&t=1' height='20px' width='20px' alt='PS3'></span>";
-			}
+			String imageLink = (String) model.get(property);
+			String imageLink100 = imageLink.replaceFirst("300x300", "100x100");
+			String imageLink500 = imageLink.replaceFirst("300x300", "500x500");
+			String gameName = StringUtils.parseHTMLEscapeChars((String) model.get("name"));
+			return "<a href='" + imageLink500 + "' title='" + gameName
+					+ "' class='thickbox'>" + "<img src='" + imageLink100
+					+ "' height='100px' width='100px' alt='" + gameName
+					+ "'></a>";
 		}
 	};
 
@@ -114,7 +140,7 @@ public class HomeViewImpl extends Composite implements HomeView {
 					0));
 
 			Button btnDelete = new Button();
-			btnDelete.setIcon(INSTANCE.delete2());
+			btnDelete.setIcon(INSTANCE.my_delete());
 			btnDelete
 					.addSelectionListener(new SelectionListener<ButtonEvent>() {
 						@Override
@@ -130,7 +156,7 @@ public class HomeViewImpl extends Composite implements HomeView {
 			btnDelete.setToolTip("Delete game");
 
 			Button btnEdit = new Button();
-			btnEdit.setIcon(INSTANCE.edit());
+			btnEdit.setIcon(INSTANCE.my_edit());
 			btnEdit.addSelectionListener(new SelectionListener<ButtonEvent>() {
 				@Override
 				public void componentSelected(ButtonEvent ce) {
@@ -159,10 +185,15 @@ public class HomeViewImpl extends Composite implements HomeView {
 	public void onImportButtonClicked(ButtonEvent event) {
 		presenter.showImportGameDialog();
 	}
-	
+
 	@GxtUiHandler(uiField = "btnImports", eventType = GxtEvent.Select)
 	public void onImportsButtonClicked(ButtonEvent event) {
 		presenter.showBatchImportDialog();
+	}
+
+	@GxtUiHandler(uiField = "btnDeletes", eventType = GxtEvent.Select)
+	public void onDeletesButtonClicked(ButtonEvent event) {
+		presenter.deleteAll();
 	}
 
 	@Override
@@ -184,18 +215,26 @@ public class HomeViewImpl extends Composite implements HomeView {
 			@Override
 			protected void load(Object loadConfig,
 					AsyncCallback<PagingLoadResult<Game>> callback) {
-				gameService.loadGames((PagingLoadConfig) loadConfig, callback);
+				gameService.loadGames((FilterPagingLoadConfig) loadConfig,
+						callback);
 			}
 		};
 
 		// loader
-		loader = new BasePagingLoader<PagingLoadResult<BeanModel>>(
-				proxy, new BeanModelReader());
+		loader = new BasePagingLoader<PagingLoadResult<BeanModel>>(proxy,
+				new BeanModelReader()) {
+			@Override
+			protected Object newLoadConfig() {
+				BasePagingLoadConfig config = new BaseFilterPagingLoadConfig();
+				return config;
+			}
+		};
 		loader.setRemoteSort(true);
 
 		ListStore<BeanModel> store = new ListStore<BeanModel>(loader);
 
-		final PagingToolBar toolBar = new PagingToolBar(GAME_GRID_RECORD_PER_PAGE);
+		final PagingToolBar toolBar = new PagingToolBar(
+				GAME_GRID_RECORD_PER_PAGE);
 		toolBar.bind(loader);
 
 		List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
@@ -229,10 +268,19 @@ public class HomeViewImpl extends Composite implements HomeView {
 		// configs.add(expander);
 
 		ColumnConfig column = new ColumnConfig();
-		column.setId("platform");
+		// column.setId("platform");
+		// column.setHeader("");
+		// column.setWidth(20);
+		// column.setRenderer(platformRender);
+		// column.setMenuDisabled(true);
+		// configs.add(column);
+
+		column = new ColumnConfig();
+		column.setId("imageLink");
 		column.setHeader("");
-		column.setWidth(20);
-		column.setRenderer(platformRender);
+		column.setWidth(70);
+		column.setRenderer(imageRender);
+		column.setSortable(false);
 		column.setMenuDisabled(true);
 		configs.add(column);
 
@@ -245,7 +293,7 @@ public class HomeViewImpl extends Composite implements HomeView {
 		column = new ColumnConfig();
 		column.setId("rating");
 		column.setHeader("ESRB Rating");
-		column.setWidth(50);
+		column.setWidth(60);
 		configs.add(column);
 
 		column = new ColumnConfig();
@@ -258,7 +306,7 @@ public class HomeViewImpl extends Composite implements HomeView {
 		column = new ColumnConfig();
 		column.setId("");
 		column.setHeader("");
-		column.setWidth(50);
+		column.setWidth(40);
 		column.setAlignment(HorizontalAlignment.CENTER);
 		column.setRenderer(buttonRenderer);
 		column.setSortable(false);
@@ -266,6 +314,10 @@ public class HomeViewImpl extends Composite implements HomeView {
 		configs.add(column);
 
 		ColumnModel cm = new ColumnModel(configs);
+
+		GridFilters filters = new GridFilters();
+		StringFilter nameFilter = new StringFilter("name");
+		filters.addFilter(nameFilter);
 
 		grid = new Grid<BeanModel>(store, cm);
 		grid.setAutoExpandColumn("name");
@@ -275,20 +327,36 @@ public class HomeViewImpl extends Composite implements HomeView {
 		grid.getView().setAutoFill(true);
 		grid.setWidth("99%");
 		grid.setLoadMask(true);
+		grid.addPlugin(filters);
 
-//		grid.addListener(Events.Attach, new Listener<GridEvent<BeanModel>>() {
-//			public void handleEvent(GridEvent<BeanModel> be) {
-//				loader.load(0, GAME_GRID_RECORD_PER_PAGE);
-//			}
-//		});
+		grid.addListener(Events.ViewReady, new Listener<BaseEvent>() {
+			public void handleEvent(BaseEvent be) {
+				applyFancyBoxEffectOnGameImages();
+			}
+		});
 
+		grid.getView().addListener(Events.Refresh, new Listener<BaseEvent>() {
+
+			@Override
+			public void handleEvent(BaseEvent be) {
+				applyFancyBoxEffectOnGameImages();
+
+			}
+		});
+		
 		contentPanel.add(grid);
 		contentPanel.setBottomComponent(toolBar);
 	}
+
+	// A Java method using JSNI
+	native void applyFancyBoxEffectOnGameImages() /*-{
+		$wnd.applyFancyBoxEffectOnGameImages(); // $wnd is a JSNI synonym for 'window'
+	}-*/;
 
 	@Override
 	public void refreshGrid() {
 		loader.load(0, GAME_GRID_RECORD_PER_PAGE);
 	}
+	
 
 }

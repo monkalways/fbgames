@@ -12,7 +12,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import ca.weiway.fbgames.shared.model.ESRBRating;
 import ca.weiway.fbgames.shared.model.Game;
+import ca.weiway.fbgames.shared.model.Platform;
 import ca.weiway.fbgames.shared.model.Price;
 import ca.weiway.fbgames.shared.model.PriceSource;
 
@@ -41,12 +43,12 @@ public class GameParserJSoupImpl implements GameParser {
 		String name = doc.select("h1[class=parseasinTitle] span[id=btAsinTitle]").text();
 		game.setName(name);
 		
-		String platform = doc.select("div[class=bucket] div[class=content] ul li").first().text();
-		platform = platform.indexOf("Xbox") > 0 ? "Xbox 360" : "PlayStation 3";
+		String platformStr = doc.select("div[class=bucket] div[class=content] ul li").first().text();
+		Platform platform = platformStr.indexOf("Xbox") > 0 ? Platform.XBOX360 : Platform.PS3;
 		game.setPlatform(platform);
 		
 		String rating = doc.select("div[class=bucket] div[class=content] ul li a").get(1).text();
-		game.setRating(rating);
+		game.setRating(getRating(rating));
 		
 		String releaseDate = doc.select("td[class=bucket] div[class=content] ul li").get(1).text();
 		
@@ -84,13 +86,13 @@ public class GameParserJSoupImpl implements GameParser {
 		
 		Game returnValue = new Game();
 		returnValue.setName(name.substring(0, name.indexOf("(")).trim());
-		returnValue.setPlatform(name.substring(name.indexOf("(") + 1, name.indexOf(")")).trim());
+		returnValue.setPlatform(getPlatform(name));
 		returnValue.setCreateDate(new Date());
 		returnValue.setImageLink(imageLink);
 		returnValue.setOnSale(false);
 		returnValue.setRecentPriceDrop(false);
 		returnValue.setUpdateDate(new Date());
-		returnValue.setRating(rating.substring(rating.indexOf(":") + 1).trim());
+		returnValue.setRating(getRating(rating));
 		if(releaseDateStr != null && releaseDateStr.length() != 0) {
 			DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 			try {
@@ -110,6 +112,39 @@ public class GameParserJSoupImpl implements GameParser {
 		returnValue.getPrices().add(gamePrice);
 		
 		return returnValue;
+	}
+
+	private Platform getPlatform(String name) {
+		if(name != null) {
+			if(name.toLowerCase().contains("xbox 360")) {
+				return Platform.XBOX360;
+			} else if(name.toLowerCase().contains("playstation 3")
+					|| (name.toLowerCase().contains("play") && name.contains("3"))) {
+				return Platform.PS3;
+			}
+		} 
+		
+		return null;
+	}
+
+	private ESRBRating getRating(String rating) {
+		if(rating != null) {
+			if(rating.toLowerCase().contains("10+")) {
+				return ESRBRating.EVERYONE_10_PLUS;
+			} else if(rating.toLowerCase().contains("everyone")) {
+				return ESRBRating.EVERYONE;
+			} else if(rating.toLowerCase().contains("teen")) {
+				return ESRBRating.TEEN;
+			} else if(rating.toLowerCase().contains("mature")) {
+				return ESRBRating.MATURE;
+			} else if(rating.toLowerCase().contains("not rated") 
+					|| rating.toLowerCase().contains("pending")) {
+				return ESRBRating.RATING_PENDING;
+			} else if(rating.toLowerCase().contains("early")) {
+				return ESRBRating.EARLY_CHILDHOOD;
+			} 
+		}
+		return null;
 	}
 
 	@Override

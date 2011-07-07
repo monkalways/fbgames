@@ -7,6 +7,8 @@ import net.customware.gwt.dispatch.client.DispatchAsync;
 import ca.weiway.fbgames.client.ui.HomeView;
 import ca.weiway.fbgames.client.ui.popup.IBatchImportDialog;
 import ca.weiway.fbgames.client.ui.popup.IImportGameDialog;
+import ca.weiway.fbgames.shared.action.DeleteAllGamesAction;
+import ca.weiway.fbgames.shared.action.DeleteAllGamesResult;
 import ca.weiway.fbgames.shared.action.DeleteGamesAction;
 import ca.weiway.fbgames.shared.action.DeleteGamesResult;
 import ca.weiway.fbgames.shared.action.ImportGameAction;
@@ -54,6 +56,7 @@ public class HomeActivity extends AbstractActivity implements
 		display.setPresenter(this);
 		display.refreshGrid();
 		panel.setWidget(display.asWidget());
+//		display.refreshGrid();
 	}
 
 	@Override
@@ -63,7 +66,6 @@ public class HomeActivity extends AbstractActivity implements
 
 	@Override
 	public void deleteGame(final Long gameId) {
-		
 		MessageBox.confirm("Delete confirmation", 
 				"Are you sure you want to delete this game?", new Listener<MessageBoxEvent>() {
 					
@@ -177,6 +179,38 @@ public class HomeActivity extends AbstractActivity implements
 	@Override
 	public void importCancel() {
 		batchImportDialog.hide();
+	}
+
+	@Override
+	public void deleteAll() {
+		MessageBox.confirm("Delete all confirmation", 
+				"Are you sure you want to delete all games?", new Listener<MessageBoxEvent>() {
+					
+					@Override
+					public void handleEvent(MessageBoxEvent be) {
+						if("Yes".equals(be.getButtonClicked().getText())) {
+							final MessageBox box = MessageBox.wait("Progress",  
+						            "Deleting all games, please wait...", "Deleting...");
+							doDeleteAll(box);
+						}
+						
+					}
+				});
+	}
+	
+	private void doDeleteAll(final MessageBox box) {
+		dispatchAsync.execute(new DeleteAllGamesAction(), new AsyncCallback<DeleteAllGamesResult>() {
+			@Override
+			public void onFailure(final Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(final DeleteAllGamesResult result) {
+				box.close();
+				Info.display("Delete all completed", result.getDeleteRecords() + " games deleted.");
+				display.refreshGrid();
+			}
+		});
 	}
 
 }

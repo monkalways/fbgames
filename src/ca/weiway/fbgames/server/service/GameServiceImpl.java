@@ -11,7 +11,8 @@ import ca.weiway.fbgames.server.guice.EntityManagerProvider;
 import ca.weiway.fbgames.shared.model.Game;
 
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
-import com.extjs.gxt.ui.client.data.PagingLoadConfig;
+import com.extjs.gxt.ui.client.data.FilterConfig;
+import com.extjs.gxt.ui.client.data.FilterPagingLoadConfig;
 import com.extjs.gxt.ui.client.data.PagingLoadResult;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.inject.Inject;
@@ -25,12 +26,12 @@ public class GameServiceImpl extends RemoteServiceServlet implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public PagingLoadResult<Game> loadGames(PagingLoadConfig config) {
+	public PagingLoadResult<Game> loadGames(FilterPagingLoadConfig config) {
 		EntityManager em = emp.get();
 
 		try {
 			Query query = 
-				em.createQuery(buildQuery(config.getSortField(), config.getSortDir().name()));
+				em.createQuery(buildQuery(config.getSortField(), config.getSortDir().name(), config.getFilterConfigs()));
 			query.setFirstResult(config.getOffset());
 			query.setMaxResults(config.getLimit());
 			List<Game> games = (List<Game>)query.getResultList();
@@ -49,13 +50,23 @@ public class GameServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 	
-	private String buildQuery(String sortField, String sortDir) {
-		String query = "select from Game game order by ";
-		if(sortField == null || sortField.isEmpty()) {
-			query += "name asc";
-		} else {
-			query += sortField + " " + sortDir;
+	private String buildQuery(String sortField, String sortDir, List<FilterConfig> filters) {
+		StringBuffer query = new StringBuffer("select from Game game");
+		if(filters != null && !filters.isEmpty()) {
+			query.append(" where ");
+			for(FilterConfig filter : filters) {
+				if("name".equals(filter.getField())) {
+					query.append("game.name like '" + filter.getValue() + "%'"); 
+				}
+			}
 		}
-		return query;
+		
+		query.append(" order by ");
+		if(sortField == null || sortField.isEmpty()) {
+			query.append("game.name asc");
+		} else {
+			query.append("game." + sortField + " " + sortDir);
+		}
+		return query.toString();
 	}
 }

@@ -77,3 +77,13 @@ h1 {
 .parseGameHpStyleLast {
 	padding: 2px;
 }
+
+#fancybox-title-inside {
+	padding-bottom: 10px;
+	text-align: center;
+	color: #333;
+	background: #fff;
+	position: relative;
+	font-weight: bold;
+	line-height: 1.4em;
+}

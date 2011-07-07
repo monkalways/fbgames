@@ -1,6 +1,5 @@
 package ca.weiway.fbgames.server.handler;
 
-import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.EntityManager;

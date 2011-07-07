@@ -14,4 +14,10 @@ public class StringUtils {
 		}
 		return buffer.toString();
 	}
+	
+	public static String parseHTMLEscapeChars(String input) {
+		return input.replace("\'", "&#146;")
+					.replace("\"", "&#148;");
+		
+	}
 }

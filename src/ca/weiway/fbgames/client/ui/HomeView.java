@@ -15,10 +15,12 @@ public interface HomeView extends IsWidget {
 		void showImportGameDialog();
 
 		void showBatchImportDialog();
+
+		void deleteAll();
 	}
 
 	public Long getSelectedId();
 
 	void refreshGrid();
-	
+
 }

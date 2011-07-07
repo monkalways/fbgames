@@ -1,11 +1,9 @@
 package ca.weiway.fbgames.shared.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import ca.weiway.fbgames.shared.model.Game;
-
 import net.customware.gwt.dispatch.shared.Result;
+import ca.weiway.fbgames.shared.model.Game;
 
 public class GetAllGamesResult implements Result {
 	

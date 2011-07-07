@@ -19,15 +19,17 @@
 	
 	<gxt:LayoutContainer layout="FlowLayout">
 		<gxt:layoutdata type="FlowData" margins="10">
-			<gxt:ContentPanel ui:field="contentPanel" bodyBorder="true" icon="{icons.table}"
+			<gxt:ContentPanel ui:field="contentPanel" bodyBorder="true" icon="{icons.my_list}"
 				heading="Games" buttonAlign="CENTER" layout="FitLayout" width="800"
 				height="600" collapsible="true">
 				<gxt:topcomponent>
 					<toolbar:ToolBar>
 						<button:Button ui:field="btnImport" scale="SMALL" iconAlign="LEFT" 
-									   icon="{icons.my_add}" text="Import Game" />
+									   icon="{icons.my_add}" text="Import" />
 						<button:Button ui:field="btnImports" scale="SMALL" iconAlign="LEFT" 
-									   icon="{icons.imports}" text="Import Games" />
+									   icon="{icons.my_adds}" text="Batch import" />
+						<button:Button ui:field="btnDeletes" scale="SMALL" iconAlign="LEFT" 
+									   icon="{icons.my_deletes}" text="Delete all" />
 					</toolbar:ToolBar>
 				</gxt:topcomponent>
 				<!-- 

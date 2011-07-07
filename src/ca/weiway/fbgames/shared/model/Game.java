@@ -42,9 +42,9 @@ public class Game implements Serializable {
 	
 	private Boolean recentPriceDrop;
 	
-	private String platform;
+	private Platform platform;
 	
-	private String rating;
+	private ESRBRating rating;
 	
 	@GwtTransient
 	@OneToMany(mappedBy="game", cascade=CascadeType.ALL)
@@ -90,11 +90,11 @@ public class Game implements Serializable {
 		this.recentPriceDrop = recentPriceDrop;
 	}
 
-	public String getPlatform() {
+	public Platform getPlatform() {
 		return platform;
 	}
 
-	public void setPlatform(String platform) {
+	public void setPlatform(Platform platform) {
 		this.platform = platform;
 	}
 
@@ -131,11 +131,11 @@ public class Game implements Serializable {
 		this.prices = prices;
 	}
 
-	public String getRating() {
+	public ESRBRating getRating() {
 		return rating;
 	}
 
-	public void setRating(String rating) {
+	public void setRating(ESRBRating rating) {
 		this.rating = rating;
 	}
 

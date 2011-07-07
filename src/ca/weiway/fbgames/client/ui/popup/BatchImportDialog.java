@@ -154,6 +154,7 @@ public class BatchImportDialog extends Dialog implements IBatchImportDialog {
 	protected void onSubmit() {
 		btnImport.disable();
 		btnCancel.disable();
+		btnParse.disable();
 		
 		currentGameIndex = 0;
 		String gameName = replaceImage(currentGameIndex, Resources.ICONS.loading());

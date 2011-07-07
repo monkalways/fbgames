@@ -2,10 +2,8 @@ package ca.weiway.fbgames.client;
 
 import ca.weiway.fbgames.client.inject.AppInjector;
 
-import com.extjs.gxt.themes.client.Slate;
 import com.extjs.gxt.ui.client.GXT;
 import com.extjs.gxt.ui.client.util.Theme;
-import com.extjs.gxt.ui.client.util.ThemeManager;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -17,8 +15,9 @@ public class Fbgames implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-//		ThemeManager.register(Slate.SLATE);
-		GXT.setDefaultTheme(Theme.BLUE, true);
+//		ThemeManager.register(Theme.GRAY);
+		Theme.GRAY.set("file","resources/css/gxt-gray.css");
+		GXT.setDefaultTheme(Theme.GRAY, true);
 		
 		AppInjector injector = GWT.create(AppInjector.class);
 		RootPanel.get().add(injector.getMainView());

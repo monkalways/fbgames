@@ -60,7 +60,7 @@ public class ImportGameHandler implements ActionHandler<ImportGameAction, Import
 	}
 	
 	private void importGame(Game game) {
-		Game gameInDB = findGameByNameAndPlatform(game.getName(), game.getPlatform());
+		Game gameInDB = findGameByNameAndPlatform(game.getName(), game.getPlatform().toString());
 		if(gameInDB != null) {
 			Price currentPrice = game.getPrices().iterator().next();
 			PriceSource source = currentPrice.getSource();

@@ -1,0 +1,18 @@
+Introduction:
+
+	This is a toy project to track how the game prices are changing overtime from online game stores.
+
+Updates:
+
+2011-07-05: 
+
+1. Added paging, sorting to the game table;
+
+2011-07-06:
+
+1. Added batch imports;
+
+2011-07-07:
+
+1. Added batch deletes;
+2. Added remote filter to the game table;
