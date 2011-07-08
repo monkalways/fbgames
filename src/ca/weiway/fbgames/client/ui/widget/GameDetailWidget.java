@@ -30,7 +30,6 @@ import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.layout.BoxLayout.BoxLayoutPack;
 import com.extjs.gxt.ui.client.widget.layout.CenterLayout;
 import com.extjs.gxt.ui.client.widget.layout.FillLayout;
-import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.extjs.gxt.ui.client.widget.layout.HBoxLayout;
 import com.extjs.gxt.ui.client.widget.layout.HBoxLayout.HBoxLayoutAlign;
 import com.extjs.gxt.ui.client.widget.layout.HBoxLayoutData;
@@ -39,7 +38,6 @@ import com.extjs.gxt.ui.client.widget.layout.RowLayout;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Image;
 
 public class GameDetailWidget extends LayoutContainer {
 	
@@ -90,7 +88,11 @@ public class GameDetailWidget extends LayoutContainer {
 					GameDetailWidget.this.removeAll();
 					GameDetailWidget.this.setLayout(new RowLayout(Orientation.HORIZONTAL));  
 					GameDetailWidget.this.setSize(760, 200);
-					addGameImage(game.getImageLink());
+//					if(game.getGameStopImageLink() != null) {
+//						addGameImage(game.getGameStopImageLink());
+//					} else if(game.getBestBuyImageLink() != null) {
+//						addGameImage(game.getBestBuyImageLink());
+//					}
 					addGrid();
 					GameDetailWidget.this.unmask();
 					GameDetailWidget.this.layout();
@@ -99,14 +101,14 @@ public class GameDetailWidget extends LayoutContainer {
 		});
 	}
 	
-	private void addGameImage(String imageHref) {
-		LayoutContainer container = new LayoutContainer(new FlowLayout());
-		Image image = new Image(imageHref);
-		image.setHeight("185px");
-		image.setWidth("185px");
-		container.add(image);
-		GameDetailWidget.this.add(container, new RowData(0.25, 0.85, margins));
-	}
+//	private void addGameImage(String imageHref) {
+//		LayoutContainer container = new LayoutContainer(new FlowLayout());
+//		Image image = new Image(imageHref);
+//		image.setHeight("185px");
+//		image.setWidth("185px");
+//		container.add(image);
+//		GameDetailWidget.this.add(container, new RowData(0.25, 0.85, margins));
+//	}
 	
 	private void addGrid() {
 		ContentPanel cp = new ContentPanel();

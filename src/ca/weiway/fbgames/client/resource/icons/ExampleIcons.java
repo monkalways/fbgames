@@ -24,6 +24,9 @@ public interface ExampleIcons extends ImageBundle {
   @Resource("my_deletes.png")
   AbstractImagePrototype my_deletes();
 
+  @Resource("no_image.png")
+  AbstractImagePrototype no_image();
+
   @Resource("loading.gif")
   AbstractImagePrototype loading();
 

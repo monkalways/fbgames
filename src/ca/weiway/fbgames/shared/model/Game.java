@@ -30,7 +30,9 @@ public class Game implements Serializable {
 	
 	private String name;
 	
-	private String imageLink;
+	private String bestBuyImageLink;
+	
+	private String gameStopImageLink;
 
 	private Date releaseDate;
 	
@@ -46,9 +48,23 @@ public class Game implements Serializable {
 	
 	private ESRBRating rating;
 	
+	private String publisher;
+	
+	private String developer;
+	
+	private GameCategory gameCategory;
+	
+	private Double latestLowestPrice;
+	
+	private PriceSource latestLowestPriceSource;
+	
 	@GwtTransient
 	@OneToMany(mappedBy="game", cascade=CascadeType.ALL)
 	private Set<Price> prices = new HashSet<Price>();
+	
+	@GwtTransient
+	@OneToMany(mappedBy="game", cascade=CascadeType.ALL)
+	private Set<GameDetail> gameDetails = new HashSet<GameDetail>();
 	
 	public Date getReleaseDate() {
 		return releaseDate;
@@ -99,12 +115,20 @@ public class Game implements Serializable {
 	}
 
 
-	public String getImageLink() {
-		return imageLink;
+	public String getBestBuyImageLink() {
+		return bestBuyImageLink;
 	}
 
-	public void setImageLink(String imageLink) {
-		this.imageLink = imageLink;
+	public void setBestBuyImageLink(String bestBuyImageLink) {
+		this.bestBuyImageLink = bestBuyImageLink;
+	}
+
+	public String getGameStopImageLink() {
+		return gameStopImageLink;
+	}
+
+	public void setGameStopImageLink(String gameStopImageLink) {
+		this.gameStopImageLink = gameStopImageLink;
 	}
 
 	public Long getId() {
@@ -139,5 +163,57 @@ public class Game implements Serializable {
 		this.rating = rating;
 	}
 
+	public String getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+
+	public String getDeveloper() {
+		return developer;
+	}
+
+	public void setDeveloper(String developer) {
+		this.developer = developer;
+	}
+
+	public Set<GameDetail> getGameDetails() {
+		return gameDetails;
+	}
+
+	public void setGameDetails(Set<GameDetail> gameDetails) {
+		this.gameDetails = gameDetails;
+	}
+	
+	public GameCategory getGameCategory() {
+		return gameCategory;
+	}
+
+	public void setGameCategory(GameCategory gameCategory) {
+		this.gameCategory = gameCategory;
+	}
+	
+	public Double getLatestLowestPrice() {
+		return latestLowestPrice;
+	}
+
+	public void setLatestLowestPrice(Double latestLowestPrice) {
+		this.latestLowestPrice = latestLowestPrice;
+	}
+
+	public PriceSource getLatestLowestPriceSource() {
+		return latestLowestPriceSource;
+	}
+
+	public void setLatestLowestPriceSource(PriceSource latestLowestPriceSource) {
+		this.latestLowestPriceSource = latestLowestPriceSource;
+	}
+
+	@Override
+	public String toString() {
+		return name + " " + platform;
+	}
 
 }

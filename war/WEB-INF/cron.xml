@@ -1,8 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cronentries>
   <cron>
-    <url>/fbgames/gameparsing</url>
-    <description>Parsing a list of games every midnight</description>
-    <schedule>every day 00:00</schedule>
+    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24358%26Page=1%26PageSize=99</url>
+    <description>Parsing BestBuy.ca PlayStation 3 A-B</description>
+    <schedule>every day 11:00</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron> 
+  <cron>
+    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24360%26Page=1%26PageSize=99</url>
+    <description>Parsing BestBuy.ca PlayStation 3 C-D</description>
+    <schedule>every day 11:10</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24362%26Page=1%26PageSize=99</url>
+    <description>Parsing BestBuy.ca PlayStation 3 E-G</description>
+    <schedule>every day 11:20</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24364%26Page=1%26PageSize=99</url>
+    <description>Parsing BestBuy.ca PlayStation 3 H-K</description>
+    <schedule>every day 11:30</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24366%26Page=1%26PageSize=99</url>
+    <description>Parsing BestBuy.ca PlayStation 3 L-M</description>
+    <schedule>every day 11:40</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24368%26Page=1%26PageSize=99</url>
+    <description>Parsing BestBuy.ca PlayStation 3 N-P</description>
+    <schedule>every day 11:50</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24370%26Page=1%26PageSize=99</url>
+    <description>Parsing BestBuy.ca PlayStation 3 Q-S</description>
+    <schedule>every day 12:00</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24372%26Page=1%26PageSize=99</url>
+    <description>Parsing BestBuy.ca PlayStation 3 T-V</description>
+    <schedule>every day 12:10</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24374%26Page=1%26PageSize=99</url>
+    <description>Parsing BestBuy.ca PlayStation 3 W-Z</description>
+    <schedule>every day 12:20</schedule>
+    <timezone>America/Edmonton</timezone>
   </cron>
 </cronentries>

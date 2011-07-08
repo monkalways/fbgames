@@ -12,13 +12,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.weiway.fbgames.server.parser.GameParser;
-import ca.weiway.fbgames.server.parser.GameParserJSoupImpl;
+import ca.weiway.fbgames.server.parser.BestBuyCaGameParser;
 import ca.weiway.fbgames.shared.model.Game;
+import ca.weiway.fbgames.shared.model.GameDetail;
+import ca.weiway.fbgames.shared.model.Price;
+import ca.weiway.fbgames.shared.model.PriceSource;
 
-public class GameParserTest {
-	
-	private GameParser gameParser = new GameParserJSoupImpl();
+public class BestBuyCaGameParserTest {
+	private BestBuyCaGameParser gameParser = new BestBuyCaGameParser();
 
 	@Before
 	public void setUp() throws Exception {
@@ -29,28 +30,27 @@ public class GameParserTest {
 	}
 	
 	@Test
-	public void testParseBestBuyCa() {
+	public void testParse() {
 		try {
 			String url = "http://www.bestbuy.ca/en-CA/product/nfl-head-coach-09-xbox-360/10110092.aspx";
 			Game game = gameParser.parse(url);
-			assertNotNull("Game should not be null.", game);
-			assertEquals("The Bourne Conspiracy (XBOX 360)", game.getName());
 			
-		} catch(Exception ex) {
-			fail("Exception occurred: " + ex);
-		}
-		
-	}
-
-	@Test
-	public void testParseAmazonCa() {
-		try {
-			String url = "http://www.amazon.ca/gp/product/B0024FAZZY";
-			Game game = gameParser.parse(url);
-			assertNotNull("Game should not be null.", game);
-			assertEquals("Overlord 2", game.getName());
-			assertEquals("Xbox 360", game.getPlatform());
-			assertEquals("Teen", game.getRating());
+			assertNotNull(game);
+			assertEquals("NFL Head Coach 09", game.getName());
+			
+			Price price = game.getPrices().iterator().next();
+			assertNotNull(price);
+			assertEquals(1.99, price.getPrice(), 0.0001);
+			
+			assertNotNull(game.getGameDetails());
+			assertEquals(1, game.getGameDetails().size());
+			
+			GameDetail gameDetail = game.getGameDetails().iterator().next();
+			assertNotNull(gameDetail);
+			assertEquals("http://www.bestbuy.ca/en-CA/product/nfl-head-coach-09-xbox-360/10110092.aspx", gameDetail.getGameLink());
+			assertEquals(PriceSource.BESTBUY_CA, gameDetail.getSource());
+			assertEquals(2, gameDetail.getNumRating().intValue());
+			assertEquals(5.0, gameDetail.getRating().doubleValue(), 0.0001);
 			
 		} catch(Exception ex) {
 			fail("Exception occurred: " + ex);
@@ -59,7 +59,7 @@ public class GameParserTest {
 	}
 	
 	@Test
-	public void testParseGameLinksBestBuyCa() {
+	public void testParseGameLinks() {
 		try {
 			String url = "http://www.bestbuy.ca/catalog/category.aspx?lang=en-CA&category=23374&Page=1&PageSize=15";
 			Map<String, String> links = gameParser.parseGameLinks(url);

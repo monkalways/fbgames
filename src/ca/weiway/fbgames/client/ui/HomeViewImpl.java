@@ -3,6 +3,7 @@ package ca.weiway.fbgames.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.weiway.fbgames.client.resource.Resources;
 import ca.weiway.fbgames.client.resource.icons.ExampleIcons;
 import ca.weiway.fbgames.client.service.GameService;
 import ca.weiway.fbgames.client.service.GameServiceAsync;
@@ -54,6 +55,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 import com.jhickman.web.gwt.gxtuibinder.client.GxtEvent;
 import com.jhickman.web.gwt.gxtuibinder.client.GxtUiHandler;
@@ -109,17 +111,40 @@ public class HomeViewImpl extends Composite implements HomeView {
 	// };
 
 	private GridCellRenderer<BeanModel> imageRender = new GridCellRenderer<BeanModel>() {
-		public String render(BeanModel model, String property,
+		public Object render(BeanModel model, String property,
 				ColumnData config, int rowIndex, int colIndex,
 				ListStore<BeanModel> store, Grid<BeanModel> grid) {
-			String imageLink = (String) model.get(property);
-			String imageLink100 = imageLink.replaceFirst("300x300", "100x100");
-			String imageLink500 = imageLink.replaceFirst("300x300", "500x500");
+			String gameStopImageLink = (String) model.get("gameStopImageLink");
+			String bestBuyImageLink = (String) model.get("bestBuyImageLink");
+			
+			if(StringUtils.isStringEmpty(gameStopImageLink) 
+					&& StringUtils.isStringEmpty(bestBuyImageLink) ) {
+				Image noImg = new Image();
+				Resources.ICONS.no_image().applyTo(noImg);
+				return noImg;
+			}
+			
 			String gameName = StringUtils.parseHTMLEscapeChars((String) model.get("name"));
-			return "<a href='" + imageLink500 + "' title='" + gameName
-					+ "' class='thickbox'>" + "<img src='" + imageLink100
-					+ "' height='100px' width='100px' alt='" + gameName
-					+ "'></a>";
+			String externalLink = null;
+			String imageLink = null;
+			String imageHeight = "100px";
+			if(bestBuyImageLink != null) {
+				externalLink = bestBuyImageLink.replaceFirst("300x300", "500x500");
+			} else {
+				externalLink = gameStopImageLink;
+			}
+			
+			if(!StringUtils.isStringEmpty(bestBuyImageLink)) {
+				imageLink = bestBuyImageLink;
+			} else {
+				imageHeight = "147px";
+				imageLink = gameStopImageLink;
+			}
+			
+			return "<a href='" + externalLink + "' title='" + gameName
+				+ "' class='thickbox'>" + "<img src='" + imageLink
+				+ "' height='" + imageHeight + "' width='100px' alt='" + gameName
+				+ "'></a>";
 		}
 	};
 
@@ -276,9 +301,9 @@ public class HomeViewImpl extends Composite implements HomeView {
 		// configs.add(column);
 
 		column = new ColumnConfig();
-		column.setId("imageLink");
+		column.setId("");
 		column.setHeader("");
-		column.setWidth(70);
+		column.setWidth(120);
 		column.setRenderer(imageRender);
 		column.setSortable(false);
 		column.setMenuDisabled(true);
@@ -287,13 +312,47 @@ public class HomeViewImpl extends Composite implements HomeView {
 		column = new ColumnConfig();
 		column.setId("name");
 		column.setHeader("Name");
-		column.setWidth(200);
+		column.setWidth(150);
+		configs.add(column);
+
+		column = new ColumnConfig();
+		column.setId("latestLowestPrice");
+		column.setHeader("Price");
+		column.setWidth(60);
+		column.setAlignment(HorizontalAlignment.RIGHT);  
+		configs.add(column);
+
+		column = new ColumnConfig();
+		column.setId("latestLowestPriceSource");
+		column.setHeader("Source");
+		column.setWidth(100);
+		column.setAlignment(HorizontalAlignment.RIGHT);  
+		configs.add(column);
+
+//		column = new ColumnConfig();
+//		column.setId("publisher");
+//		column.setHeader("Publisher");
+//		column.setWidth(60);
+//		configs.add(column);
+//
+//		column = new ColumnConfig();
+//		column.setId("developer");
+//		column.setHeader("Developer");
+//		column.setWidth(60);
+//		configs.add(column);
+
+		column = new ColumnConfig();
+		column.setId("gameCategory");
+		column.setHeader("Category");
+		column.setWidth(100);
+		column.setAlignment(HorizontalAlignment.RIGHT);  
 		configs.add(column);
 
 		column = new ColumnConfig();
 		column.setId("rating");
 		column.setHeader("ESRB Rating");
-		column.setWidth(60);
+		column.setWidth(100);
+		column.setAlignment(HorizontalAlignment.RIGHT);  
 		configs.add(column);
 
 		column = new ColumnConfig();
@@ -306,7 +365,7 @@ public class HomeViewImpl extends Composite implements HomeView {
 		column = new ColumnConfig();
 		column.setId("");
 		column.setHeader("");
-		column.setWidth(40);
+		column.setWidth(70);
 		column.setAlignment(HorizontalAlignment.CENTER);
 		column.setRenderer(buttonRenderer);
 		column.setSortable(false);
@@ -320,14 +379,18 @@ public class HomeViewImpl extends Composite implements HomeView {
 		filters.addFilter(nameFilter);
 
 		grid = new Grid<BeanModel>(store, cm);
-		grid.setAutoExpandColumn("name");
+//		grid.setAutoExpandColumn("name");
 		grid.addPlugin(expander);
-		grid.setColumnReordering(true);
+//		grid.setColumnReordering(true);
 		grid.setStripeRows(true);
-		grid.getView().setAutoFill(true);
+//		grid.getView().setAutoFill(true);
 		grid.setWidth("99%");
 		grid.setLoadMask(true);
 		grid.addPlugin(filters);
+		grid.setBorders(false);
+		grid.setColumnLines(true);  
+		grid.setStyleAttribute("borderTop", "none"); 
+//		grid.getView().setForceFit(true); 
 
 		grid.addListener(Events.ViewReady, new Listener<BaseEvent>() {
 			public void handleEvent(BaseEvent be) {

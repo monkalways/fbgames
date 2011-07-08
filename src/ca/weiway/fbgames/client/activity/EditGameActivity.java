@@ -53,7 +53,7 @@ public class EditGameActivity extends AppActivity implements EditGameView.Presen
 		Game game = new Game();
 		game.setName(display.getName());
 //		game.setPrice(display.getPrice());
-		game.setImageLink(display.getImageLink());
+		game.setBestBuyImageLink(display.getImageLink());
 		game.setReleaseDate(display.getReleaseDate());
 		
 		dispatchAsync.execute(new SaveGameAction(game), new AsyncCallback<SaveGameResult>() {

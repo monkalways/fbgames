@@ -17,7 +17,10 @@ public class StringUtils {
 	
 	public static String parseHTMLEscapeChars(String input) {
 		return input.replace("\'", "&#146;")
-					.replace("\"", "&#148;");
-		
+					.replace("\"", "&#148;");	
+	}
+	
+	public static Boolean isStringEmpty(String target) {
+		return target == null || target.isEmpty();
 	}
 }
