@@ -379,7 +379,7 @@ public class HomeViewImpl extends Composite implements HomeView {
 		filters.addFilter(nameFilter);
 
 		grid = new Grid<BeanModel>(store, cm);
-//		grid.setAutoExpandColumn("name");
+		grid.setAutoExpandColumn("name");
 		grid.addPlugin(expander);
 //		grid.setColumnReordering(true);
 		grid.setStripeRows(true);

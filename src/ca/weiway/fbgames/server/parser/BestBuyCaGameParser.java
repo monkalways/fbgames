@@ -44,12 +44,10 @@ public class BestBuyCaGameParser extends AbstractGameParser {
 		
 		String customerRatingStr = doc.select("div[class=customer-rating] div[class=rating-stars] span[class=nbr]").text();
 		
-		double customerRating = Double.parseDouble(customerRatingStr);
 		
 		String numCustomerRatingStr = doc.select("div[id=divTab_details] div[class=left] p[class=rating-numbers]").text();
 		
-		int numCustomerRating = Integer.parseInt(numCustomerRatingStr.substring(
-				numCustomerRatingStr.indexOf("(") + 1, numCustomerRatingStr.indexOf("rating")).trim());
+		
 		
 		Game returnValue = new Game();
 		returnValue.setName(name.substring(0, name.indexOf("(")).trim());
@@ -80,8 +78,15 @@ public class BestBuyCaGameParser extends AbstractGameParser {
 		gameDetail.setGame(returnValue);
 		gameDetail.setGameLink(url);
 		gameDetail.setSource(PriceSource.BESTBUY_CA);
-		gameDetail.setRating(customerRating);
-		gameDetail.setNumRating(numCustomerRating);
+		if(!customerRatingStr.isEmpty()) {
+			double customerRating = Double.parseDouble(customerRatingStr);
+			gameDetail.setRating(customerRating);
+		}
+		if(!numCustomerRatingStr.isEmpty()) {
+			int numCustomerRating = Integer.parseInt(numCustomerRatingStr.substring(
+				numCustomerRatingStr.indexOf("(") + 1, numCustomerRatingStr.indexOf("rating")).trim());
+			gameDetail.setNumRating(numCustomerRating);
+		}
 		
 		returnValue.getPrices().add(gamePrice);
 		returnValue.getGameDetails().add(gameDetail);
