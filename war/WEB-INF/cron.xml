@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cronentries>
+	<!-- 
   <cron>
     <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24358%26Page=1%26PageSize=99</url>
     <description>Parsing BestBuy.ca PlayStation 3 A-B</description>
@@ -54,4 +55,5 @@
     <schedule>every day 12:20</schedule>
     <timezone>America/Edmonton</timezone>
   </cron>
+   -->
 </cronentries>
