@@ -30,8 +30,9 @@ public class GameServiceImpl extends RemoteServiceServlet implements
 		EntityManager em = emp.get();
 
 		try {
+			String queryStr = buildQuery(config.getSortField(), config.getSortDir().name(), config.getFilterConfigs());
 			Query query = 
-				em.createQuery(buildQuery(config.getSortField(), config.getSortDir().name(), config.getFilterConfigs()));
+				em.createQuery(queryStr);
 			query.setFirstResult(config.getOffset());
 			query.setMaxResults(config.getLimit());
 			List<Game> games = (List<Game>)query.getResultList();

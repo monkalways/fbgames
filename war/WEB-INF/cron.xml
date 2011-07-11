@@ -1,58 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cronentries>
-	<!-- 
+<!-- 
   <cron>
-    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24358%26Page=1%26PageSize=99</url>
-    <description>Parsing BestBuy.ca PlayStation 3 A-B</description>
-    <schedule>every day 11:00</schedule>
-    <timezone>America/Edmonton</timezone>
-  </cron> 
-  <cron>
-    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24360%26Page=1%26PageSize=99</url>
-    <description>Parsing BestBuy.ca PlayStation 3 C-D</description>
-    <schedule>every day 11:10</schedule>
+    <url>/fbgames/bbcgameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24358%26Page=1%26PageSize=99</url>
+    <description>Parsing BestBuy.ca PlayStation 3 (1-99)</description>
+    <schedule>every day 17:00</schedule>
     <timezone>America/Edmonton</timezone>
   </cron>
   <cron>
-    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24362%26Page=1%26PageSize=99</url>
-    <description>Parsing BestBuy.ca PlayStation 3 E-G</description>
-    <schedule>every day 11:20</schedule>
+    <url>/fbgames/bbcgameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24358%26Page=2%26PageSize=99</url>
+    <description>Parsing BestBuy.ca PlayStation 3 (100-199)</description>
+    <schedule>every day 17:10</schedule>
     <timezone>America/Edmonton</timezone>
   </cron>
   <cron>
-    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24364%26Page=1%26PageSize=99</url>
-    <description>Parsing BestBuy.ca PlayStation 3 H-K</description>
-    <schedule>every day 11:30</schedule>
+    <url>/fbgames/bbcgameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24358%26Page=3%26PageSize=99</url>
+    <description>Parsing BestBuy.ca PlayStation 3 (200-299)</description>
+    <schedule>every day 17:20</schedule>
     <timezone>America/Edmonton</timezone>
   </cron>
   <cron>
-    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24366%26Page=1%26PageSize=99</url>
-    <description>Parsing BestBuy.ca PlayStation 3 L-M</description>
-    <schedule>every day 11:40</schedule>
+    <url>/fbgames/bbcgameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24358%26Page=4%26PageSize=99</url>
+    <description>Parsing BestBuy.ca PlayStation 3 (300-399)</description>
+    <schedule>every day 17:30</schedule>
     <timezone>America/Edmonton</timezone>
   </cron>
   <cron>
-    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24368%26Page=1%26PageSize=99</url>
-    <description>Parsing BestBuy.ca PlayStation 3 N-P</description>
-    <schedule>every day 11:50</schedule>
+    <url>/fbgames/bbcgameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24358%26Page=5%26PageSize=99</url>
+    <description>Parsing BestBuy.ca PlayStation 3 (400-499)</description>
+    <schedule>every day 17:30</schedule>
     <timezone>America/Edmonton</timezone>
   </cron>
   <cron>
-    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24370%26Page=1%26PageSize=99</url>
-    <description>Parsing BestBuy.ca PlayStation 3 Q-S</description>
-    <schedule>every day 12:00</schedule>
+    <url>/fbgames/bbcgameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=23374%26Page=1%26PageSize=99</url>
+    <description>Parsing BestBuy.ca XBOX 360 (1-99)</description>
+    <schedule>every day 17:40</schedule>
     <timezone>America/Edmonton</timezone>
   </cron>
   <cron>
-    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24372%26Page=1%26PageSize=99</url>
-    <description>Parsing BestBuy.ca PlayStation 3 T-V</description>
-    <schedule>every day 12:10</schedule>
+    <url>/fbgames/bbcgameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=23374%26Page=2%26PageSize=99</url>
+    <description>Parsing BestBuy.ca XBOX 360 (100-199)</description>
+    <schedule>every day 17:50</schedule>
     <timezone>America/Edmonton</timezone>
   </cron>
   <cron>
-    <url>/fbgames/gameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=24374%26Page=1%26PageSize=99</url>
-    <description>Parsing BestBuy.ca PlayStation 3 W-Z</description>
-    <schedule>every day 12:20</schedule>
+    <url>/fbgames/bbcgameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=23374%26Page=3%26PageSize=99</url>
+    <description>Parsing BestBuy.ca XBOX 360 (200-299)</description>
+    <schedule>every day 18:00</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/bbcgameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=23374%26Page=4%26PageSize=99</url>
+    <description>Parsing BestBuy.ca XBOX 360 (300-399)</description>
+    <schedule>every day 18:10</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/bbcgameparsing?url=http://www.bestbuy.ca/catalog/category.aspx%3Flang=en-CA%26category=23374%26Page=5%26PageSize=99</url>
+    <description>Parsing BestBuy.ca XBOX 360 (400-499)</description>
+    <schedule>every day 18:10</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+   -->
+  <cron>
+    <url>/fbgames/gtcgameparsing?url=http://www.gamestop.ca/browse/games/playstation-3%3Fnav=1391-191-71&amp;start=0&amp;end=9</url>
+    <description>Parsing GameStop.ca PlayStation 3 (1-96)</description>
+    <schedule>every day 16:45</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <!-- 
+  <cron>
+    <url>/fbgames/gtcgameparsing?url=http://www.gamestop.ca/browse/games/playstation-3%3Fnav=1391-191-71&amp;start=9&amp;end=17</url>
+    <description>Parsing GameStop.ca PlayStation 3 (97-192)</description>
+    <schedule>every day 18:30</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gtcgameparsing?url=http://www.gamestop.ca/browse/games/playstation-3%3Fnav=1391-191-71&amp;start=17&amp;end=25</url>
+    <description>Parsing GameStop.ca PlayStation 3 (193-288)</description>
+    <schedule>every day 18:40</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gtcgameparsing?url=http://www.gamestop.ca/browse/games/playstation-3%3Fnav=1391-191-71&amp;start=25&amp;end=33</url>
+    <description>Parsing GameStop.ca PlayStation 3 (289-384)</description>
+    <schedule>every day 18:50</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gtcgameparsing?url=http://www.gamestop.ca/browse/games/playstation-3%3Fnav=1391-191-71&amp;start=33&amp;end=41</url>
+    <description>Parsing GameStop.ca PlayStation 3 (385-480)</description>
+    <schedule>every day 19:00</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gtcgameparsing?url=http://www.gamestop.ca/browse/games/playstation-3%3Fnav=1391-191-71&amp;start=41&amp;end=49</url>
+    <description>Parsing GameStop.ca PlayStation 3 (481-576)</description>
+    <schedule>every day 19:20</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+   -->
+  <cron>
+    <url>/fbgames/gtcgameparsing?url=http://www.gamestop.ca/browse/games/xbox-360%3Fnav=1397-71-191&amp;start=0&amp;end=9</url>
+    <description>Parsing GameStop.ca XBOX 360 (1-96)</description>
+    <schedule>every day 17:00</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <!-- 
+  <cron>
+    <url>/fbgames/gtcgameparsing?url=http://www.gamestop.ca/browse/games/xbox-360%3Fnav=1397-191-71&amp;start=9&amp;end=17</url>
+    <description>Parsing GameStop.ca XBOX 360 (97-192)</description>
+    <schedule>every day 19:40</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gtcgameparsing?url=http://www.gamestop.ca/browse/games/xbox-360%3Fnav=1397-191-71&amp;start=17&amp;end=25</url>
+    <description>Parsing GameStop.ca XBOX 360 (193-288)</description>
+    <schedule>every day 19:50</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gtcgameparsing?url=http://www.gamestop.ca/browse/games/xbox-360%3Fnav=1397-191-71&amp;start=25&amp;end=33</url>
+    <description>Parsing GameStop.ca XBOX 360 (289-384)</description>
+    <schedule>every day 20:00</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gtcgameparsing?url=http://www.gamestop.ca/browse/games/xbox-360%3Fnav=1397-191-71&amp;start=33&amp;end=41</url>
+    <description>Parsing GameStop.ca XBOX 360 (385-480)</description>
+    <schedule>every day 20:10</schedule>
+    <timezone>America/Edmonton</timezone>
+  </cron>
+  <cron>
+    <url>/fbgames/gtcgameparsing?url=http://www.gamestop.ca/browse/games/xbox-360%3Fnav=1397-191-71&amp;start=41&amp;end=49</url>
+    <description>Parsing GameStop.ca XBOX 360 (481-576)</description>
+    <schedule>every day 20:20</schedule>
     <timezone>America/Edmonton</timezone>
   </cron>
    -->

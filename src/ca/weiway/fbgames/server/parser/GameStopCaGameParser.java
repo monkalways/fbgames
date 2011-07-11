@@ -2,10 +2,12 @@ package ca.weiway.fbgames.server.parser;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import ca.weiway.fbgames.shared.model.Game;
@@ -27,6 +29,10 @@ public class GameStopCaGameParser extends AbstractGameParser {
 			gameName = gameName.substring(0, gameName.indexOf("(")).trim();
 		} else if(gameName.indexOf("by") > 0){
 			gameName = gameName.substring(0, gameName.indexOf("by")).trim();
+		}
+		
+		if(gameName.indexOf("-") > 0) {
+			gameName = gameName.substring(0, gameName.indexOf("-")).trim();
 		}
 		
 		String price = doc.select("div[class=buy1] h3 span").text();
@@ -88,8 +94,19 @@ public class GameStopCaGameParser extends AbstractGameParser {
 
 	@Override
 	public Map<String, String> parseGameLinks(String url) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, String> gameLinks = new HashMap<String, String>();
+		
+		Document doc = Jsoup.connect(url).get();
+		Elements links = doc.select("div[class=product new_product] h3 a");
+		
+		for (Element link : links) {
+//			print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(link.text(), 35));
+			String href = link.attr("abs:href");
+			String name = link.text();
+			gameLinks.put(name, href);
+		}
+		
+		return gameLinks;
 	}
 
 }

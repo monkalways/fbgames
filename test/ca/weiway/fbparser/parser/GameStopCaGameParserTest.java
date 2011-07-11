@@ -2,6 +2,10 @@ package ca.weiway.fbparser.parser;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,4 +102,33 @@ public class GameStopCaGameParserTest {
 
 	}
 
+	@Test
+	public void testParseGameLinks() {
+		try {
+			String url = "http://www.gamestop.ca/browse/xbox-360/games?nav=2b12,1397-71-191";
+			Map<String, String> links = gameParser.parseGameLinks(url);
+			List<Game> games = new ArrayList<Game>();
+			for(String gameLink : links.values()) {
+				Game game = gameParser.parse(gameLink);
+				games.add(game);
+				System.out.println(gameLink);
+			}
+		} catch(Exception ex) {
+			fail("Exception occurred: " + ex);
+		}
+		
+	}
+	
+
+	@Test
+	public void testParseGameLinks_Error() {
+		try {
+			String url = "http://www.gamestop.ca/browse/xbox-360/games?nav=2b509,1397-71-191";
+			Map<String, String> links = gameParser.parseGameLinks(url);
+			assertEquals(0, links.size());
+		} catch(Exception ex) {
+			fail("Exception occurred: " + ex);
+		}
+		
+	}
 }

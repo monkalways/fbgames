@@ -29,8 +29,7 @@ public class GameParserJSoupImpl implements GameParser {
 			return amazonCaGameParser.parse(url);
 		} else if(url.contains("gamestop.ca")) {
 			return gameStopCaGameParser.parse(url);
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
@@ -43,6 +42,8 @@ public class GameParserJSoupImpl implements GameParser {
 		
 		if(url.contains("bestbuy.ca")) {
 			return bestBuyCaGameParser.parseGameLinks(url);
+		} else if(url.contains("gamestop.ca")) {
+			return gameStopCaGameParser.parseGameLinks(url);
 		} else {
 			return null;
 		}

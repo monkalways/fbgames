@@ -21,3 +21,8 @@ Updates:
 2011-07-08:
 
 1. Added game parser for gamestop.ca;
+
+2011-07-11:
+
+1. Added game list parser for gamestop.ca;
+2. Fixed couple bugs;

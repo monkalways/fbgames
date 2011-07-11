@@ -113,10 +113,13 @@ public class HomeActivity extends AbstractActivity implements
 		doImport(gameLink, box);
 	}
 	
-	private void doImport(String gameLink, final MessageBox box) {
+	private void doImport(final String gameLink, final MessageBox box) {
 		dispatchAsync.execute(new ImportGameAction(gameLink), new AsyncCallback<ImportGameResult>() {
 			@Override
 			public void onFailure(final Throwable caught) {
+				box.close();
+				importGameDialog.hide();
+				Info.display("Failed to import game", gameLink);
 			}
 
 			@Override

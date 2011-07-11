@@ -13,6 +13,7 @@ import javax.persistence.Query;
 import net.customware.gwt.dispatch.server.ActionHandler;
 import net.customware.gwt.dispatch.server.ExecutionContext;
 import net.customware.gwt.dispatch.shared.DispatchException;
+import ca.weiway.fbgames.client.util.StringUtils;
 import ca.weiway.fbgames.server.guice.EntityManagerProvider;
 import ca.weiway.fbgames.server.parser.GameParser;
 import ca.weiway.fbgames.shared.action.ImportGameAction;
@@ -87,12 +88,14 @@ public class ImportGameHandler implements ActionHandler<ImportGameAction, Import
 		
 		if(latestPrice != null) {
 			if(!equals(latestPrice.getPrice(), currentPrice.getPrice())) {
-				addNewPrice(currentPrice, gameInDB);
+				boolean priceDrop = currentPrice.getPrice() < latestPrice.getPrice();
+				
+				addNewPrice(currentPrice, gameInDB, priceDrop);
 			} else {
 				return;
 			}
 		} else {
-			addNewPrice(currentPrice, gameInDB);
+			addNewPrice(currentPrice, gameInDB, false);
 		}
 	}
 	
@@ -165,8 +168,8 @@ public class ImportGameHandler implements ActionHandler<ImportGameAction, Import
 		
 		try {
 			Query query = 
-				em.createQuery("select from Game g where g.name = :name and g.platform = :platform");
-			query.setParameter("name", name);
+				em.createQuery("select from Game g where g.compareName = :name and g.platform = :platform");
+			query.setParameter("name", StringUtils.stripPunctionAndSpace(name).toUpperCase());
 			query.setParameter("platform", platform);
 			List<Game> games = (List<Game>) query.getResultList();
 			if(games != null && games.size() == 1) {
@@ -206,7 +209,7 @@ public class ImportGameHandler implements ActionHandler<ImportGameAction, Import
 		}
 	}
 	
-	private void addNewPrice(Price price, Game game) {
+	private void addNewPrice(Price price, Game game, boolean priceDrop) {
 		game.getPrices().add(price);
 		price.setGame(game);
 		game.setUpdateDate(new Date());
@@ -221,11 +224,15 @@ public class ImportGameHandler implements ActionHandler<ImportGameAction, Import
 			if(otherPrice.getPrice() < lowestPrice) {
 				lowestPrice = otherPrice.getPrice();
 				lowestSource = otherPrice.getSource();
+				priceDrop = false;
 			}
 		}
 		
 		game.setLatestLowestPrice(lowestPrice);
 		game.setLatestLowestPriceSource(lowestSource);
+		if(priceDrop) {
+			game.setRecentPriceDrop(priceDrop);
+		}
 	}
 	
 	private void saveGame(Game game) {
@@ -247,7 +254,7 @@ public class ImportGameHandler implements ActionHandler<ImportGameAction, Import
 				Query query = 
 					em.createQuery(
 							"select from Price p where p.game = :game and p.source <> :source " +
-							"order by p.createDate DESC");
+							"order by p.source, p.createDate DESC");
 				query.setParameter("game", game);
 				query.setParameter("source", source);
 				List<Price> prices = (List<Price>)query.getResultList();

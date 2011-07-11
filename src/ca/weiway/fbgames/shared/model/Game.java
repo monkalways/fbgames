@@ -12,60 +12,63 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+
+import ca.weiway.fbgames.client.util.StringUtils;
 
 import com.google.gwt.user.client.rpc.GwtTransient;
 
 @Entity
-@NamedQuery(
-	    name="Game.getTotalOfGame",
-	    query="select count(game.id) from Game game"
-)
+@NamedQuery(name = "Game.getTotalOfGame", query = "select count(game.id) from Game game")
 public class Game implements Serializable {
-	
+
 	private static final long serialVersionUID = -4415279469780082174L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String name;
-	
+
+	private String compareName;
+
 	private String bestBuyImageLink;
-	
+
 	private String gameStopImageLink;
 
 	private Date releaseDate;
-	
+
 	private Date createDate;
-	
+
 	private Date updateDate;
-	
+
 	private Boolean onSale;
-	
+
 	private Boolean recentPriceDrop;
-	
+
 	private Platform platform;
-	
+
 	private ESRBRating rating;
-	
+
 	private String publisher;
-	
+
 	private String developer;
-	
+
 	private GameCategory gameCategory;
-	
+
 	private Double latestLowestPrice;
-	
+
 	private PriceSource latestLowestPriceSource;
-	
+
 	@GwtTransient
-	@OneToMany(mappedBy="game", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
 	private Set<Price> prices = new HashSet<Price>();
-	
+
 	@GwtTransient
-	@OneToMany(mappedBy="game", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
 	private Set<GameDetail> gameDetails = new HashSet<GameDetail>();
-	
+
 	public Date getReleaseDate() {
 		return releaseDate;
 	}
@@ -113,7 +116,6 @@ public class Game implements Serializable {
 	public void setPlatform(Platform platform) {
 		this.platform = platform;
 	}
-
 
 	public String getBestBuyImageLink() {
 		return bestBuyImageLink;
@@ -186,7 +188,7 @@ public class Game implements Serializable {
 	public void setGameDetails(Set<GameDetail> gameDetails) {
 		this.gameDetails = gameDetails;
 	}
-	
+
 	public GameCategory getGameCategory() {
 		return gameCategory;
 	}
@@ -194,7 +196,7 @@ public class Game implements Serializable {
 	public void setGameCategory(GameCategory gameCategory) {
 		this.gameCategory = gameCategory;
 	}
-	
+
 	public Double getLatestLowestPrice() {
 		return latestLowestPrice;
 	}
@@ -209,6 +211,20 @@ public class Game implements Serializable {
 
 	public void setLatestLowestPriceSource(PriceSource latestLowestPriceSource) {
 		this.latestLowestPriceSource = latestLowestPriceSource;
+	}
+
+	public String getCompareName() {
+		return compareName;
+	}
+
+	@PrePersist
+	@PreUpdate
+	public void prePersist() {
+		if (name != null) {
+			compareName = StringUtils.stripPunctionAndSpace(name).toUpperCase();
+		} else {
+			compareName = null;
+		}
 	}
 
 	@Override

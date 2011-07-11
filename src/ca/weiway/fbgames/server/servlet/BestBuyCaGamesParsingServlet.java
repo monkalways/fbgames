@@ -1,4 +1,4 @@
-package ca.weiway.fbgames.server.guice;
+package ca.weiway.fbgames.server.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,9 +20,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GamesParsingServlet extends HttpServlet {
+public class BestBuyCaGamesParsingServlet extends HttpServlet {
 	
-	private static final Logger log = Logger.getLogger(GamesParsingServlet.class.getName());
+	private static final Logger log = Logger.getLogger(BestBuyCaGamesParsingServlet.class.getName());
 	
 	@Inject
 	private ImportGameHandler importGameHandler;
@@ -75,7 +75,7 @@ public class GamesParsingServlet extends HttpServlet {
 			}
 	    }
 
-		out.println("</ul><body>");
+		out.println("</ul></body>");
 		out.close();
 	}
 

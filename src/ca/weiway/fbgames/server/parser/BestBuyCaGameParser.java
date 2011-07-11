@@ -43,11 +43,8 @@ public class BestBuyCaGameParser extends AbstractGameParser {
 		String rating = doc.select("div[class=ProductDetailsControlMiddleRow] div[class=std-ratingsystem] p span").first().text();
 		
 		String customerRatingStr = doc.select("div[class=customer-rating] div[class=rating-stars] span[class=nbr]").text();
-		
-		
+				
 		String numCustomerRatingStr = doc.select("div[id=divTab_details] div[class=left] p[class=rating-numbers]").text();
-		
-		
 		
 		Game returnValue = new Game();
 		returnValue.setName(name.substring(0, name.indexOf("(")).trim());

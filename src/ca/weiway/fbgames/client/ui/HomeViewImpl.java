@@ -110,41 +110,73 @@ public class HomeViewImpl extends Composite implements HomeView {
 	// }
 	// };
 
+	private GridCellRenderer<BeanModel> nameRenderer = new GridCellRenderer<BeanModel>() {
+		public String render(BeanModel model, String property,
+				ColumnData config, int rowIndex, int colIndex,
+				ListStore<BeanModel> store, Grid<BeanModel> grid) {
+			String name = (String) model.get(property);
+			boolean priceDrop = (Boolean) model.get("recentPriceDrop");
+			String returnValue = "<h2 style='font-weight: bold'>"
+					+ name;
+			
+			if(priceDrop) {
+				returnValue += "<span style='color: red;font-size: 11px;'> (Price Drop) </span>";
+			}
+			
+			returnValue += "</h2>";
+			
+			String publisher = (String) model.get("publisher");
+			String developer = (String) model.get("developer");
+			
+			if(!StringUtils.isStringEmpty(publisher)) {
+				returnValue += "<br/><span style='color: #999;font-size: 11px;'>Published by: " + publisher + "</span>";
+			}
+
+			if(!StringUtils.isStringEmpty(developer)) {
+				returnValue += "<br/><span style='color: #999;font-size: 11px;'>Developed by: " + developer + "</span>";
+			}
+			
+			return returnValue;
+		}
+	};
+
 	private GridCellRenderer<BeanModel> imageRender = new GridCellRenderer<BeanModel>() {
 		public Object render(BeanModel model, String property,
 				ColumnData config, int rowIndex, int colIndex,
 				ListStore<BeanModel> store, Grid<BeanModel> grid) {
 			String gameStopImageLink = (String) model.get("gameStopImageLink");
 			String bestBuyImageLink = (String) model.get("bestBuyImageLink");
-			
-			if(StringUtils.isStringEmpty(gameStopImageLink) 
-					&& StringUtils.isStringEmpty(bestBuyImageLink) ) {
+
+			if (StringUtils.isStringEmpty(gameStopImageLink)
+					&& StringUtils.isStringEmpty(bestBuyImageLink)) {
 				Image noImg = new Image();
 				Resources.ICONS.no_image().applyTo(noImg);
 				return noImg;
 			}
-			
-			String gameName = StringUtils.parseHTMLEscapeChars((String) model.get("name"));
+
+			String gameName = StringUtils.parseHTMLEscapeChars((String) model
+					.get("name"));
 			String externalLink = null;
 			String imageLink = null;
-			String imageHeight = "100px";
-			if(bestBuyImageLink != null) {
-				externalLink = bestBuyImageLink.replaceFirst("300x300", "500x500");
+			String imageWidth = "100px";
+			if (bestBuyImageLink != null) {
+				externalLink = bestBuyImageLink.replaceFirst("300x300",
+						"500x500");
 			} else {
 				externalLink = gameStopImageLink;
 			}
-			
-			if(!StringUtils.isStringEmpty(bestBuyImageLink)) {
+
+			if (!StringUtils.isStringEmpty(bestBuyImageLink)) {
 				imageLink = bestBuyImageLink;
 			} else {
-				imageHeight = "147px";
+				imageWidth = "69px";
 				imageLink = gameStopImageLink;
 			}
-			
+
 			return "<a href='" + externalLink + "' title='" + gameName
-				+ "' class='thickbox'>" + "<img src='" + imageLink
-				+ "' height='" + imageHeight + "' width='100px' alt='" + gameName
-				+ "'></a>";
+					+ "' class='thickbox'>" + "<img src='" + imageLink
+					+ "' height='100px' width='" + imageWidth + "' alt='"
+					+ gameName + "'></a>";
 		}
 	};
 
@@ -312,6 +344,7 @@ public class HomeViewImpl extends Composite implements HomeView {
 		column = new ColumnConfig();
 		column.setId("name");
 		column.setHeader("Name");
+		column.setRenderer(nameRenderer);
 		column.setWidth(150);
 		configs.add(column);
 
@@ -319,40 +352,40 @@ public class HomeViewImpl extends Composite implements HomeView {
 		column.setId("latestLowestPrice");
 		column.setHeader("Price");
 		column.setWidth(60);
-		column.setAlignment(HorizontalAlignment.RIGHT);  
+		column.setAlignment(HorizontalAlignment.RIGHT);
 		configs.add(column);
 
 		column = new ColumnConfig();
 		column.setId("latestLowestPriceSource");
 		column.setHeader("Source");
 		column.setWidth(100);
-		column.setAlignment(HorizontalAlignment.RIGHT);  
+		column.setAlignment(HorizontalAlignment.RIGHT);
 		configs.add(column);
 
-//		column = new ColumnConfig();
-//		column.setId("publisher");
-//		column.setHeader("Publisher");
-//		column.setWidth(60);
-//		configs.add(column);
-//
-//		column = new ColumnConfig();
-//		column.setId("developer");
-//		column.setHeader("Developer");
-//		column.setWidth(60);
-//		configs.add(column);
+		// column = new ColumnConfig();
+		// column.setId("publisher");
+		// column.setHeader("Publisher");
+		// column.setWidth(60);
+		// configs.add(column);
+		//
+		// column = new ColumnConfig();
+		// column.setId("developer");
+		// column.setHeader("Developer");
+		// column.setWidth(60);
+		// configs.add(column);
 
 		column = new ColumnConfig();
 		column.setId("gameCategory");
 		column.setHeader("Category");
 		column.setWidth(100);
-		column.setAlignment(HorizontalAlignment.RIGHT);  
+		column.setAlignment(HorizontalAlignment.RIGHT);
 		configs.add(column);
 
 		column = new ColumnConfig();
 		column.setId("rating");
 		column.setHeader("ESRB Rating");
 		column.setWidth(100);
-		column.setAlignment(HorizontalAlignment.RIGHT);  
+		column.setAlignment(HorizontalAlignment.RIGHT);
 		configs.add(column);
 
 		column = new ColumnConfig();
@@ -381,16 +414,16 @@ public class HomeViewImpl extends Composite implements HomeView {
 		grid = new Grid<BeanModel>(store, cm);
 		grid.setAutoExpandColumn("name");
 		grid.addPlugin(expander);
-//		grid.setColumnReordering(true);
+		// grid.setColumnReordering(true);
 		grid.setStripeRows(true);
-//		grid.getView().setAutoFill(true);
+		// grid.getView().setAutoFill(true);
 		grid.setWidth("99%");
 		grid.setLoadMask(true);
 		grid.addPlugin(filters);
 		grid.setBorders(false);
-		grid.setColumnLines(true);  
-		grid.setStyleAttribute("borderTop", "none"); 
-//		grid.getView().setForceFit(true); 
+		grid.setColumnLines(true);
+		grid.setStyleAttribute("borderTop", "none");
+		// grid.getView().setForceFit(true);
 
 		grid.addListener(Events.ViewReady, new Listener<BaseEvent>() {
 			public void handleEvent(BaseEvent be) {
@@ -406,7 +439,7 @@ public class HomeViewImpl extends Composite implements HomeView {
 
 			}
 		});
-		
+
 		contentPanel.add(grid);
 		contentPanel.setBottomComponent(toolBar);
 	}
@@ -420,6 +453,5 @@ public class HomeViewImpl extends Composite implements HomeView {
 	public void refreshGrid() {
 		loader.load(0, GAME_GRID_RECORD_PER_PAGE);
 	}
-	
 
 }
